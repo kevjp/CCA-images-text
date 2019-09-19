@@ -1,5 +1,3 @@
-apt-get update
-apt-get upgrade
 
 source activate tensorflow_p36
 
@@ -33,14 +31,14 @@ sudo chown -R ubuntu /newvolume
 
 #wget https://s3.amazonaws.com/mordecai-geo/GoogleNews-vectors-negative300.bin.gz
 wget http://mattmahoney.net/dc/text8.zip
-apt-get install -y unzip
+
 unzip text8.zip
 rm text8.zip
 python load_word2vec.py
 
 pip install h5py
 
-wget http://msvocds.blob.core.windows.net/coco2014/train2014.zip
+curl -O http://msvocds.blob.core.windows.net/coco2014/train2014.zip
 wget http://msvocds.blob.core.windows.net/coco2014/val2014.zip
 wget http://msvocds.blob.core.windows.net/annotations-1-0-3/instances_train-val2014.zip
 #wget http://msvocds.blob.core.windows.net/annotations-1-0-3/captions_train-val2014.zip
