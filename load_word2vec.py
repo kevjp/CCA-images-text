@@ -6,4 +6,4 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 sentences = word2vec.Text8Corpus('text8')
 model = word2vec.Word2Vec(sentences, size=200)
 model.save('text8.model')
-model.save_word2vec_format('text.model.bin', binary=True)
+model.wv.save_word2vec_format('text.model.bin', binary=True)
