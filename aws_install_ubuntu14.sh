@@ -34,9 +34,12 @@ wget http://mattmahoney.net/dc/text8.zip
 
 unzip text8.zip
 rm text8.zip
+cd ~/CCA-images-text
 python load_word2vec.py
 
 pip install h5py
+
+cd /newvolume
 
 curl -O http://msvocds.blob.core.windows.net/coco2014/train2014.zip
 wget http://msvocds.blob.core.windows.net/coco2014/val2014.zip
@@ -52,7 +55,16 @@ rm instances_train-val2014.zip
 #rm captions_train-val2014.zip
 
 pip install Cython
+
+cd $HOME
 git clone https://github.com/pdollar/coco.git
 cd coco/PythonAPI
 make
 python setup.py build_ext install
+
+cd $HOME
+
+git clone https://github.com/kevjp/CCA-images-text.git
+
+# Copy across files that are too big to put on remote repo
+scp -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/CCA_images_text/CCA-images-text/main/train_features.npz  ubuntu@ec2-35-178-151-72.eu-west-2.compute.amazonaws.com:~/CCA-images-text/main
