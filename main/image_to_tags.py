@@ -58,15 +58,16 @@ f = open('i2t_results.txt', 'w')
 pos = 0
 logging.info('Testing: prediction')
 start = time.time()
+# Generate a score matrix for all images for all words in the glossary of terms
+scores = np.zeros((N_TEST,N_TAGS))
 for image_id in img_ids:
     v_img = img_features[pos]
-    scores = np.zeros(N_TAGS)
     for i in range(N_TAGS):
         tag_features = tag_features_list[i]
         v_tag = np.dot(tag_features, W_tag)
-        scores[i] = distance.euclidean(v_img, v_tag)
+        scores[pos,i] = distance.euclidean(v_img, v_tag) # (Looking for the closes word vector to the image vector)distance between direction magnitudes of test image features relative to all corrected training image features and direction magnitudes of training word vectors relative to all corrected training word vectors
 
-    index = np.argsort(scores)
+    index = np.argsort(scores[pos,:])
     info = img_info[image_id]
     f.write(info['flickr_url'] + ' ' + info['coco_url'] + '\n')
     for i in range(N_RESULTS):
