@@ -31,10 +31,10 @@ def correlations(X, Y, useGPU):
     return cxx, cxy, cyx, cyy
 
 def fit(X, Y, numCC=None, useGPU=False):
-    print X.shape, Y.shape
+    print (X.shape, Y.shape)
     assert X.shape[0] == Y.shape[0]
 
-    print 'Calculating correlation matrices'
+    print ('Calculating correlation matrices')
     cxx, cxy, cyx, cyy = correlations(X, Y, useGPU)
 
     nX = X.shape[1]
@@ -51,6 +51,6 @@ def fit(X, Y, numCC=None, useGPU=False):
     RH[0:nX, 0:nX] = cxx
     RH[nX:nX + nY, nX:nX + nY] = cyy
 
-    print 'Solving general eigenvalue problem'
+    print ('Solving general eigenvalue problem')
     v, W = eigh(LH, RH, overwrite_a=True, overwrite_b=True, eigvals=(nX + nY - numCC, nX + nY - 1))
     return W[0:nX, :numCC], W[nX:nX + nY, :numCC]

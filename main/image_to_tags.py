@@ -1,4 +1,4 @@
-from gensim.models import word2vec
+from gensim.models import word2vec, KeyedVectors
 from pycocotools.coco import COCO
 from scipy.spatial import distance
 import logging
@@ -11,13 +11,13 @@ import features
 
 logging.basicConfig(filename='cca.log', format='%(asctime)s %(message)s', level=logging.INFO)
 
-annFile = 'annotations/instances_val2014.json'
+annFile = '/newvolume/annotations/instances_val2014.json'
 coco_val = COCO(annFile)
 ids = coco_val.getAnnIds()
 annotations = coco_val.loadAnns(ids)
 
 assert os.path.isfile('projections.npz')
-projections = np.load('projections.npz')
+projections = np.load('projections.npz',allow_pickle=True)
 pca = projections['pca'].item()
 W_img = projections['W_img']
 W_tag = projections['W_tag']
@@ -25,7 +25,7 @@ W_tag = projections['W_tag']
 assert os.path.isfile('possible_tags.pkl')
 possible_tags = pickle.load(open('possible_tags.pkl', 'rb'))
 
-model = word2vec.Word2Vec.load_word2vec_format('text.model.bin', binary=True)
+model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
 tags = []
 tag_features_list = []
 logging.info('Testing: get embedding of all possible tags')
@@ -75,5 +75,6 @@ for image_id in img_ids:
     f.write('\n')
 
     pos += 1
+np.savez('score_matrix', scores=scores)
 end = time.time()
 logging.info('Time: %.4fm', (end - start) / 60)

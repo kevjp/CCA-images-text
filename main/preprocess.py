@@ -1,4 +1,4 @@
-from gensim.models import word2vec
+from gensim.models import word2vec, KeyedVectors
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.preprocessing import image
 from pycocotools.coco import COCO
@@ -36,26 +36,26 @@ def count_words():
     logging.info('Training: number of images = %d', len(img_count))
 
 def calc_features():
-    model = word2vec.Word2Vec.load_word2vec_format('text.model.bin', binary=True)
+    model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
     net = VGG16(weights='imagenet', include_top=True)
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
 
     TAGS_PER_IMAGE = args.tagsPerImage
-    print 'Tags per image', TAGS_PER_IMAGE
+    print ('Tags per image', TAGS_PER_IMAGE)
     img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 4096), dtype=np.float32)
     tag_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 200), dtype=np.float32)
 
     possible_tags = set()
 
-    f = file('train_tags.txt', 'w')
+    f = open('train_tags.txt', 'w')
     pos = 0
     logging.info('Training: calculate image features, choose tag for each image')
     bar = progressbar.ProgressBar()
-    for image_id, words in bar(img_count.iteritems()):
+    for image_id, words in bar(img_count.items()):
         file_name = coco_train.imgs[image_id]['file_name']
-        img = image.load_img('train2014/' + file_name, target_size=(224, 224))
+        img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224))
 
         words_list = []
         words_count = []
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     parser.add_argument('--tagsPerImage', default=2, type=int, help='amount of tags per image')
     args = parser.parse_args()
 
-    annFile = 'annotations/captions_train2014.json'
+    annFile = '/newvolume/annotations/captions_train2014.json'
     coco_train = COCO(annFile)
     ids = coco_train.getAnnIds()
     annotations = coco_train.loadAnns(ids)

@@ -1,6 +1,7 @@
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.preprocessing import image
 import numpy as np
+import logging
 
 def calc_testing_image_features(img_info, pca, W_img):
     N_TEST = len(img_info)
@@ -16,9 +17,9 @@ def calc_testing_image_features(img_info, pca, W_img):
 
     pos = 0
     logging.info('Testing: precalculate image features')
-    for image_id, info in img_info.iteritems():
+    for image_id, info in img_info.items():
         file_name = info['file_name']
-        img = image.load_img('val2014/' + file_name, target_size=(224, 224))
+        img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224))
         img_ids.append(image_id)
 
         img = image.img_to_array(img)
