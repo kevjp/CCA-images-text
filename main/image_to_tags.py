@@ -36,10 +36,14 @@ N_TAGS = len(tags)
 
 img_info = {}
 logging.info('Testing: get all different image ids')
+
 for ann in annotations:
     image_id = ann['image_id']
     if image_id not in img_info:
         img_info[image_id] = coco_val.imgs[image_id]
+
+
+print(sample_count)
 
 N_TEST = len(img_info)
 logging.info('Testing: number of images = %d', N_TEST)
@@ -59,6 +63,7 @@ pos = 0
 logging.info('Testing: prediction')
 start = time.time()
 # Generate a score matrix for all images for all words in the glossary of terms
+print(N_TEST,N_TAGS)
 scores = np.zeros((N_TEST,N_TAGS))
 for image_id in img_ids:
     v_img = img_features[pos]
@@ -76,6 +81,6 @@ for image_id in img_ids:
     f.write('\n')
 
     pos += 1
-np.savez('score_matrix', scores=scores)
+np.savez('/newvolume/score_matrix', scores=scores)
 end = time.time()
 logging.info('Time: %.4fm', (end - start) / 60)
