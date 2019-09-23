@@ -33,44 +33,38 @@ def annotate_scatter(top5_array, ann_list):
     ann_out = []
     index_pos = []
     index_count = 0
+    add_ann = None
     for img in top5_array:
-        score = 0
+        score = 6
         if ann_list[0] in  img[1]:
-            ann_out.append(ann_list[0])
+            add_ann = ann_list[0]
+            score = img[1].index(ann_list[0])
+        if ann_list[1] in  img[1]:
+            if img[1].index(ann_list[1]) < score:
+                add_ann = ann_list[1]
+                score = img[1].index(ann_list[1])
+        if ann_list[2] in  img[1]:
+            if img[1].index(ann_list[2]) < score:
+                add_ann = ann_list[2]
+                score = img[1].index(ann_list[2])
+        if ann_list[3] in  img[1]:
+            if img[1].index(ann_list[3]) < score:
+                add_ann = ann_list[3]
+                score = img[1].index(ann_list[3])
+        if ann_list[4] in  img[1]:
+            if img[1].index(ann_list[4]) < score:
+                add_ann = ann_list[4]
+                score = img[1].index(ann_list[4])
+        # add anootation to list
+        if add_ann is not None:
+            ann_out.append(add_ann)
             index_pos.append(index_count)
             index_count += 1
-            score = img[1].index(ann_list[0])
-        elif ann_list[1] in  img[1]:
-            if img[1].index(ann_list[1]) > score:
-                ann_out.append(ann_list[1])
-                index_pos.append(index_count)
-                index_count += 1
-                score = img[1].index(ann_list[1])
-        elif ann_list[2] in  img[1]:
-            if img[1].index(ann_list[2]) > score:
-                ann_out.append(ann_list[2])
-                index_pos.append(index_count)
-                index_count += 1
-                score = img[1].index(ann_list[2])
-        elif ann_list[3] in  img[1]:
-            if img[1].index(ann_list[3]) > score:
-                ann_out.append(ann_list[3])
-                index_pos.append(index_count)
-                index_count += 1
-                score = img[1].index(ann_list[3])
-        elif ann_list[4] in  img[1]:
-            if img[1].index(ann_list[4]) > score:
-                ann_out.append(ann_list[4])
-                index_pos.append(index_count)
-                index_count += 1
-                score = img[1].index(ann_list[4])
         else:
             index_count += 1
-            # ann_out.append("notlabelled")
-
     return ann_out, index_pos
 
-f = open('i2t_results.txt', 'r')
+f = open('/newvolume/i2t_results.txt', 'r')
 # Array of top 5 tags for each image
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
@@ -80,7 +74,7 @@ annot_list, indices_list = annotate_scatter(X, ["kitchen", "bedroom", "bathroom"
 
 
 # Load score matrix
-scores_obj = np.load('score_matrix.npz')
+scores_obj = np.load('/newvolume/score_matrix.npz')
 scores = scores_obj['scores']
 
 # Slice out the scores relating to the images tags with the relevant tags
@@ -96,7 +90,7 @@ pos = mds.fit(similarities).embedding_
 
 fig = plt.figure(figsize=(12,10))
 
-colors = ['red','blue','green','orange', 'black', 'yellow']
+colors = ['red','blue','green','orange', 'black']
 
 plt.scatter(pos[:, 0], pos[:, 1], label= annot_list, cmap=colors)
 
@@ -104,8 +98,9 @@ plt.scatter(pos[:, 0], pos[:, 1], label= annot_list, cmap=colors)
 
 # col_list = [c for c in map(lambda x: colors[x],annot_list)]
 # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
+plt.show()
 
-plt.savefig('images_2000.pdf')
+plt.savefig('/newvolume/images_2000.pdf')
 
 
 # ax = plt.subplots(1)
@@ -130,35 +125,35 @@ plt.savefig('images_2000.pdf')
 
 
 
-import chart_studio.plotly as py
-from plotly.offline import plot
-import plotly.graph_objs as go
+# import chart_studio.plotly as py
+# from plotly.offline import plot
+# import plotly.graph_objs as go
 
-import numpy as np
+# import numpy as np
 
-from sklearn import manifold
-from sklearn.metrics import euclidean_distances
-from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
+# from sklearn import manifold
+# from sklearn.metrics import euclidean_distances
+# from sklearn.decomposition import PCA
+# import matplotlib.pyplot as plt
 
-n_samples = 20
-seed = np.random.RandomState(seed=3)
-X_true = seed.randint(0, 20, 2 * n_samples).astype(np.float)
-X_true = X_true.reshape((n_samples, 2))
-# Center the data
-X_true -= X_true.mean()
+# n_samples = 20
+# seed = np.random.RandomState(seed=3)
+# X_true = seed.randint(0, 20, 2 * n_samples).astype(np.float)
+# X_true = X_true.reshape((n_samples, 2))
+# # Center the data
+# X_true -= X_true.mean()
 
-similarities = euclidean_distances(X_true)
+# similarities = euclidean_distances(X_true)
 
-# Add noise to the similarities
-noise = np.random.rand(n_samples, n_samples)
-noise = noise + noise.T
-noise[np.arange(noise.shape[0]), np.arange(noise.shape[0])] = 0
-similarities += noise
+# # Add noise to the similarities
+# noise = np.random.rand(n_samples, n_samples)
+# noise = noise + noise.T
+# noise[np.arange(noise.shape[0]), np.arange(noise.shape[0])] = 0
+# similarities += noise
 
-mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9, random_state=seed,
-                   dissimilarity="precomputed", n_jobs=1)
-pos = mds.fit(similarities).embedding_
+# mds = manifold.MDS(n_components=2, max_iter=3000, eps=1e-9, random_state=seed,
+#                    dissimilarity="precomputed", n_jobs=1)
+# pos = mds.fit(similarities).embedding_
 
 # print(pos)
 
@@ -173,12 +168,12 @@ pos = mds.fit(similarities).embedding_
 
 
 
-fig = plt.figure(figsize=(12,10))
+# fig = plt.figure(figsize=(12,10))
 
-plt.scatter(pos[:, 0], pos[:, 1])
-plt.scatter(X_true[:, 0], X_true[:, 1])
+# plt.scatter(pos[:, 0], pos[:, 1])
+# plt.scatter(X_true[:, 0], X_true[:, 1])
 
-plt.show()
+# plt.show()
 
 # data = []
 # p1 = go.Scatter(x=X_true[:, 0], y=X_true[:, 1],
