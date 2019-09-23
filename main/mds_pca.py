@@ -36,6 +36,7 @@ def annotate_scatter(top5_array, ann_list):
     add_ann = None
     for img in top5_array:
         score = 6
+        add_ann = None
         if ann_list[0] in  img[1]:
             add_ann = ann_list[0]
             score = img[1].index(ann_list[0])
@@ -64,18 +65,21 @@ def annotate_scatter(top5_array, ann_list):
             index_count += 1
     return ann_out, index_pos
 
-f = open('/newvolume/i2t_results.txt', 'r')
+f = open('/newvolume/outputs/i2t_results.txt', 'r')
 # Array of top 5 tags for each image
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
 annot_list, indices_list = annotate_scatter(X, ["kitchen", "bedroom", "bathroom", "washroom", "tarmac"])
 
-
+print(len(annot_list))
+print(len(indices_list))
 
 # Load score matrix
-scores_obj = np.load('/newvolume/score_matrix.npz')
+scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
 scores = scores_obj['scores']
+
+print(len(scores))
 
 # Slice out the scores relating to the images tags with the relevant tags
 score_subset = list(map(scores.__getitem__, indices_list))
