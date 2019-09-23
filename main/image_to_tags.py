@@ -43,7 +43,6 @@ for ann in annotations:
         img_info[image_id] = coco_val.imgs[image_id]
 
 
-print(sample_count)
 
 N_TEST = len(img_info)
 logging.info('Testing: number of images = %d', N_TEST)
