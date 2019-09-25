@@ -148,6 +148,7 @@ def calc_features():
         words_list = []
         words_count = []
         for w in words:
+            print(w)
             if w in model.wv.vocab:
                 words_list.append(w)
                 words_count.append(img_count[image_id][w])
@@ -163,8 +164,7 @@ def calc_features():
             ind = index[i]
             f.write(words_list[ind] + ', ' + str(words_count[ind]) + '\n')
         for caption in img_captions[image_id]:
-            print(caption['name'])
-            f.write(caption + '\n')
+            f.write(caption['name'] + '\n')
 
         img = image.img_to_array(img)
         img = np.expand_dims(img, axis=0)
