@@ -68,11 +68,11 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     pos = mds.fit(similarities).embedding_
 
-    label_list = ['kitchen counter', 'kitchen_refrigerator']
+    label_list = ['kitchen counter', 'kitchen refrigerator']
 
     group = np.array(annot_list)
 
-    colors = {'kitchen counter':'red', 'kitchen_refrigerator': 'blue'}
+    colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
