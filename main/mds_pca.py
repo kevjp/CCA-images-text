@@ -42,7 +42,7 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-ann_dict  = {'kitchen': ['kitchen', 'messy'], 'bathroom': ['bathroom', 'messy'], 'bedroom': ['bedroom', 'messy']}
+ann_dict  = {'kitchen': ['kitchen', 'preparing']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
@@ -68,11 +68,11 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     pos = mds.fit(similarities).embedding_
 
-    label_list = ['kitchen messy', 'bathroom messy', 'bedroom messy']
+    label_list = ['kitchen preparing']
 
     group = np.array(annot_list)
 
-    colors = {'kitchen messy':'red', 'bathroom messy':'blue', 'bedroom messy':'green'}
+    colors = {'kitchen preparing':'red'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -90,7 +90,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     plt.show()
 
-    plt.savefig('/newvolume/images_messy.pdf')
+    plt.savefig('/newvolume/images_kitchen_preparing.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
 
