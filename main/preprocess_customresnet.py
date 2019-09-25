@@ -129,7 +129,8 @@ def calc_features():
 
     TAGS_PER_IMAGE = args.tagsPerImage
     print ('Tags per image', TAGS_PER_IMAGE)
-    img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 4096), dtype=np.float32)
+    # img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 4096), dtype=np.float32)
+    img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 256), dtype=np.float32)
     tag_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 200), dtype=np.float32)
 
     possible_tags = set()
