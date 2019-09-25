@@ -160,7 +160,8 @@ def calc_features():
         # f.write(coco_train.imgs[image_id]['flickr_url'] + '\n')
         f.write(image_id + '\n')
         for i in range(TAGS_PER_IMAGE):
-            f.write(words_list[ index[i] ] + '\n')
+            if i < len(index):
+                f.write(words_list[ index[i] ] + '\n')
         for i in range(0,min(5,len(index))):
             ind = index[i]
             f.write(words_list[ind] + ', ' + str(words_count[ind]) + '\n')
@@ -174,9 +175,10 @@ def calc_features():
         features = features.reshape(-1)
 
         for i in range(TAGS_PER_IMAGE):
-            ind = index[i]
-            img_features[TAGS_PER_IMAGE * pos + i,:] = features
-            tag_features[TAGS_PER_IMAGE * pos + i,:] = model[ words_list[ind] ]
+            if i < len(index):
+                ind = index[i]
+                img_features[TAGS_PER_IMAGE * pos + i,:] = features
+                tag_features[TAGS_PER_IMAGE * pos + i,:] = model[ words_list[ind] ]
         possible_tags.add(words_list[ index[0] ])
 
         pos += 1
