@@ -68,10 +68,12 @@ print(len(pos))
 fig = plt.figure(figsize=(12,10))
 
 # colors = ['red','blue','green','orange', 'black']
-label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
+# label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
+label_list = ['kitchen']
 # label_list = ['dog', 'cat']
 group = np.array(annot_list)
-colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
+# colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
+colors = {'kitchen':'red'}
 # colors = {'dog':'red', 'cat':'blue'}
 col_list = [c for c in map(lambda x: colors[x],annot_list)]
 print(len(col_list))
@@ -86,7 +88,7 @@ for g in np.unique(group):
 
 # Plot image instead of point
 # obtaine file paths for each image
-annFile = '/newvolume2/annotations/instances_val2014.json'
+annFile = '/newvolume/annotations/instances_val2014.json'
 coco_val = COCO(annFile)
 ids = coco_val.getAnnIds()
 annotations = coco_val.loadAnns(ids)
@@ -100,7 +102,7 @@ for ann in annotations:
 img_path_list = []
 for image_id, info in img_info.items():
     file_name = info['file_name']
-    img = '/newvolume2/val2014/' + file_name
+    img = '/newvolume/val2014/' + file_name
     img_path_list.append(img)
 
 # Slice out the relevant images
@@ -123,7 +125,7 @@ for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
 # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 plt.show()
 
-plt.savefig('/newvolume/images_kitchenVbathroomVbedroom.pdf')
+plt.savefig('/newvolume/images_kitchen.pdf')
 
 
 # ax = plt.subplots(1)
