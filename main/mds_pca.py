@@ -42,7 +42,9 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-ann_dict  = {'kitchen_counter': ['kitchen', 'counter'], 'kitchen_refrigerator': ['kitchen', 'refrigerator']}
+# ann_dict  = {'kitchen_counter': ['kitchen', 'counter'], 'kitchen_refrigerator': ['kitchen', 'refrigerator']}
+# ann_dict  = {'kitchen_counter': ['kitchen', 'counter']}
+ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
@@ -68,7 +70,8 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     pos = mds.fit(similarities).embedding_
 
-    label_list = ['kitchen counter', 'kitchen refrigerator']
+    # label_list = ['kitchen counter', 'kitchen refrigerator']
+    label_list = ['kitchen refrigerator']
 
     group = np.array(annot_list)
 
@@ -114,7 +117,8 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     img_subset = list(map(img_path_list.__getitem__, indices_list))
 
     print(len(img_subset))
-    dest = '/newvolume/kitchen_counter'
+    # dest_counter = '/newvolume/kitchen_counter'
+    dest_refrigerator = '/newvolume/kitchen_refrigerator'
     for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
         print(path)
         shutil.copy(path, dest)
@@ -126,7 +130,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     plt.show()
 
-    plt.savefig('/newvolume/images_kitchen_counter_refrigerator.pdf')
+    plt.savefig('/newvolume/images_kitchen_refrigerator.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
 
