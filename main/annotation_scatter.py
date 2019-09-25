@@ -12,7 +12,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
     if ann_dict is not None:
         for img in top5_array:
             score_vec = 0
-            ind_ex = 0
+            ind_ex = [0]
             add_ann = None
             for a in ann_dict:
                 if(set(ann_dict[a]).issubset(set(img[1]))):
