@@ -44,7 +44,7 @@ X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line
 # Generate annotation tag for each image
 ann_dict  = {'kitchen': ['kitchen', 'messy'], 'bathroom': ['bathroom', 'messy'], 'bedroom': ['bedroom', 'messy']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
-annot_dict, indices_list = annotate_scatter(X, ann_dict = ann_dict)
+annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 print(annot_list)
