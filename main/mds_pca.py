@@ -42,7 +42,7 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-ann_dict  = {'kitchen': ['kitchen', 'counter']}
+ann_dict  = {'kitchen_counter': ['kitchen', 'counter'], 'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
@@ -68,11 +68,11 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     pos = mds.fit(similarities).embedding_
 
-    label_list = ['kitchen counter']
+    label_list = ['kitchen counter', 'kitchen_refrigerator']
 
     group = np.array(annot_list)
 
-    colors = {'kitchen counter':'red'}
+    colors = {'kitchen counter':'red', 'kitchen_refrigerator': 'blue'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -93,40 +93,40 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 # Uncomment section below to add images instead of dots as points of scatter plot
     # Plot image instead of point
     # obtain file paths for each image
-    annFile = '/newvolume/annotations/instances_val2014.json'
-    coco_val = COCO(annFile)
-    ids = coco_val.getAnnIds()
-    annotations = coco_val.loadAnns(ids)
+    # annFile = '/newvolume/annotations/instances_val2014.json'
+    # coco_val = COCO(annFile)
+    # ids = coco_val.getAnnIds()
+    # annotations = coco_val.loadAnns(ids)
 
-    img_info = {}
-    for ann in annotations:
-        image_id = ann['image_id']
-        if image_id not in img_info:
-            img_info[image_id] = coco_val.imgs[image_id]
+    # img_info = {}
+    # for ann in annotations:
+    #     image_id = ann['image_id']
+    #     if image_id not in img_info:
+    #         img_info[image_id] = coco_val.imgs[image_id]
 
-    img_path_list = []
-    for image_id, info in img_info.items():
-        file_name = info['file_name']
-        img = '/newvolume/val2014/' + file_name
-        img_path_list.append(img)
+    # img_path_list = []
+    # for image_id, info in img_info.items():
+    #     file_name = info['file_name']
+    #     img = '/newvolume/val2014/' + file_name
+    #     img_path_list.append(img)
 
-    # Slice out the relevant images
-    img_subset = list(map(img_path_list.__getitem__, indices_list))
+    # # Slice out the relevant images
+    # img_subset = list(map(img_path_list.__getitem__, indices_list))
 
-    print(len(img_subset))
-    dest = '/newvolume/kitchen_counter'
-    for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
-        print(path)
-        shutil.copy(path, dest)
-        ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
-        ax.add_artist(ab)
-    plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
+    # print(len(img_subset))
+    # dest = '/newvolume/kitchen_counter'
+    # for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
+    #     print(path)
+    #     shutil.copy(path, dest)
+    #     ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
+    #     ax.add_artist(ab)
+    # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 ################################################################################
 
 
     plt.show()
 
-    plt.savefig('/newvolume/images_kitchen_counter.pdf')
+    plt.savefig('/newvolume/images_kitchen_counter_refrigerator.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
 
