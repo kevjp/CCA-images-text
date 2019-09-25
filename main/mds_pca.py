@@ -80,16 +80,57 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     scatter_x = np.array(pos[:, 0])
     scatter_y = np.array(pos[:,1])
-    for g in np.unique(group):
-        ix = np.where(group == g)
-        ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
-    ax.legend(loc='lower right')
+
+################################################################################
+# # Uncomment to add coloured dots instead of images to scatter plot #############
+    # for g in np.unique(group):
+    #     ix = np.where(group == g)
+    #     ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
+    # ax.legend(loc='lower right')
+################################################################################
+
+################################################################################
+# Uncomment section below to add images instead of dots as points of scatter plot
+    # Plot image instead of point
+    # obtain file paths for each image
+    annFile = '/newvolume/annotations/instances_val2014.json'
+    coco_val = COCO(annFile)
+    ids = coco_val.getAnnIds()
+    annotations = coco_val.loadAnns(ids)
+
+    img_info = {}
+    for ann in annotations:
+        image_id = ann['image_id']
+        if image_id not in img_info:
+            img_info[image_id] = coco_val.imgs[image_id]
+
+    img_path_list = []
+    for image_id, info in img_info.items():
+        file_name = info['file_name']
+        img = '/newvolume/val2014/' + file_name
+        img_path_list.append(img)
+
+    # Slice out the relevant images
+    img_subset = list(map(img_path_list.__getitem__, indices_list))
+
+
+    dest = '/newvolume/bathroom'
+    for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
+        print(path)
+        # shutil.copy(path, dest)
+        ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
+        ax.add_artist(ab)
+################################################################################
+
 
     plt.show()
 
     plt.savefig('/newvolume/images_kitchen_preparing.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
+
+
+
 
 def gen_scatter_single_tag(annot_list, indices_list):
     # Load score matrix
@@ -166,8 +207,6 @@ def gen_scatter_single_tag(annot_list, indices_list):
     #     ax.add_artist(ab)
     ################################################################################
 
-
-    ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
     ax.legend(loc='lower right')
     # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange', 'notlabelled': 'white'}
 
