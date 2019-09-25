@@ -6,6 +6,7 @@ pip install progressbar2
 pip install scikit-learn
 
 pip install gensim nltk
+pip install chart_studio
 python -m nltk.downloader punkt
 python -m nltk.downloader stopwords
 
@@ -35,7 +36,7 @@ wget http://mattmahoney.net/dc/text8.zip
 unzip text8.zip
 rm text8.zip
 cd ~/CCA-images-text
-python load_word2vec.py
+python ~/CCA-images-text/load_word2vec.py
 
 pip install h5py
 
@@ -44,15 +45,15 @@ cd /newvolume
 curl -O http://msvocds.blob.core.windows.net/coco2014/train2014.zip
 wget http://msvocds.blob.core.windows.net/coco2014/val2014.zip
 wget http://msvocds.blob.core.windows.net/annotations-1-0-3/instances_train-val2014.zip
-#wget http://msvocds.blob.core.windows.net/annotations-1-0-3/captions_train-val2014.zip
+wget http://msvocds.blob.core.windows.net/annotations-1-0-3/captions_train-val2014.zip
 unzip train2014.zip
 unzip val2014.zip
 unzip instances_train-val2014.zip
-#unzip captions_train-val2014.zip
+unzip captions_train-val2014.zip
 rm train2014.zip
 rm val2014.zip
 rm instances_train-val2014.zip
-#rm captions_train-val2014.zip
+rm captions_train-val2014.zip
 
 pip install Cython
 
