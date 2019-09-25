@@ -42,7 +42,7 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-annot_list, indices_list = annotate_scatter(X, ann_list = ["kitchen"])
+annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 print(annot_list)
 print(len(annot_list))
@@ -70,11 +70,11 @@ fig = plt.figure(figsize=(12,10))
 
 # colors = ['red','blue','green','orange', 'black']
 # label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
-label_list = ['kitchen']
+label_list = ['bathroom']
 # label_list = ['dog', 'cat']
 group = np.array(annot_list)
 # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
-colors = {'kitchen':'red'}
+colors = {'bathroom':'red'}
 # colors = {'dog':'red', 'cat':'blue'}
 col_list = [c for c in map(lambda x: colors[x],annot_list)]
 print(len(col_list))
@@ -109,7 +109,7 @@ for image_id, info in img_info.items():
 # Slice out the relevant images
 img_subset = list(map(img_path_list.__getitem__, indices_list))
 
-dest = '/newvolume/kitchen'
+dest = '/newvolume/bathroom'
 for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
     print(path)
     shutil.copy(path, dest)
@@ -127,7 +127,7 @@ for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
 # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 plt.show()
 
-plt.savefig('/newvolume/images_bedroom.pdf')
+plt.savefig('/newvolume/images_bathroom.pdf')
 
 
 # ax = plt.subplots(1)
