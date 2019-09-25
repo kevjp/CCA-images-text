@@ -83,9 +83,6 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     for g in np.unique(group):
         ix = np.where(group == g)
         ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
-
-
-    ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
     ax.legend(loc='lower right')
 
     plt.show()
