@@ -117,7 +117,7 @@ def count_words_google_data():
 
 
 def calc_features():
-    model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
+    model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
     # Load my own custom room type multilabel classifier
     net = load_model('/newvolume/resnet_classifier')
     # net = VGG16(weights='imagenet', include_top=True)
