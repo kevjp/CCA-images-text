@@ -83,10 +83,10 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
 ################################################################################
 # # Uncomment to add coloured dots instead of images to scatter plot #############
-    # for g in np.unique(group):
-    #     ix = np.where(group == g)
-    #     ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
-    # ax.legend(loc='lower right')
+    for g in np.unique(group):
+        ix = np.where(group == g)
+        ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
+    ax.legend(loc='lower right')
 ################################################################################
 
 ################################################################################
@@ -120,6 +120,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
         shutil.copy(path, dest)
         ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
         ax.add_artist(ab)
+    plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 ################################################################################
 
 
