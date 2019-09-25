@@ -10,7 +10,7 @@ from pycocotools.coco import COCO
 from annotation_scatter import annotate_scatter
 
 def getImage(path):
-    return OffsetImage(plt.imread(path, 0), zoom=0.05)
+    return OffsetImage(plt.imread(path, 0), zoom=0.1)
 
 
 
