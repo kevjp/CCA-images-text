@@ -73,7 +73,7 @@ def count_words_google_data():
                     with open(ann_directory + "/" + filename) as f:
                         ann = json.load(f)
                         img_count[file_path] = {}
-                        img_captions[file_path] = [ann['tags']]
+                        img_captions[file_path] = ann['tags']
                         for ob in ann['tags']:
                             if ob['name'] == "Kitchen":
                                 tokens = nltk.word_tokenize(ob['name'])
