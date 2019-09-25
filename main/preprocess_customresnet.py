@@ -56,7 +56,7 @@ def count_words():
 
     logging.info('Training: number of images = %d', len(img_count))
 def count_words_google_data():
-    feature_type = ["Fireplaces", "Hardwood_Floors", "Kitchen_Islands", "Skylights", "ADE20K_tagged"]
+    feature_type = ["Fireplaces", "Hardwood_Floors", "Kitchen_Islands", "Skylights"]
     room_type = ["living_room", "kitchen", "bedroom", "bathroom"]
     # Iterate over images collected for each feature type
     stop = set(nltk.corpus.stopwords.words('english'))
