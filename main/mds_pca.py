@@ -78,7 +78,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     fig, ax = plt.subplots()
 
-    scatter_x = np.array(pos[:, 0])
+    scatter_x = np.array(pos[:,0])
     scatter_y = np.array(pos[:,1])
 
 ################################################################################
@@ -117,7 +117,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     dest = '/newvolume/bathroom'
     for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
         print(path)
-        # shutil.copy(path, dest)
+        shutil.copy(path, dest)
         ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
         ax.add_artist(ab)
 ################################################################################
@@ -168,7 +168,7 @@ def gen_scatter_single_tag(annot_list, indices_list):
     print(col_list)
     fig, ax = plt.subplots()
 
-    scatter_x = np.array(pos[:, 0])
+    scatter_x = np.array(pos[:,0])
     scatter_y = np.array(pos[:,1])
     for g in np.unique(group):
         ix = np.where(group == g)
