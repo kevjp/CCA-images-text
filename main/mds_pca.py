@@ -42,106 +42,157 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
+ann_dict  = {'kitchen': ['kitchen', 'messy'], 'bathroom': ['bathroom', 'messy'], 'bedroom': ['bedroom', 'messy']}
+# annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
+annot_dict, indices_list = annotate_scatter(X, ann_dict = ann_dict)
+
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 print(annot_list)
 print(len(annot_list))
 print(len(indices_list))
 
-# Load score matrix
-scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
-scores = scores_obj['scores']
 
-print(len(scores))
+def gen_scatter_multi_tag(annot_list, indices_list):
+    # Load score matrix
+    scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
+    scores = scores_obj['scores']
 
-# Slice out the scores relating to the images tags with the relevant tags
-score_subset = list(map(scores.__getitem__, indices_list))
+    # Slice out the scores relating to the images tags with the relevant tags
+    score_subset = list(map(scores.__getitem__, indices_list))
 
-# Generate MDS object
-mds = MDS(n_components=2, dissimilarity="precomputed")
+    # Generate MDS object
+    mds = MDS(n_components=2, dissimilarity="precomputed")
 
-# Calculate euclidean distance between each image word vector
-similarities = euclidean_distances(score_subset)
+    # Calculate euclidean distance between each image word vector
+    similarities = euclidean_distances(score_subset)
 
-pos = mds.fit(similarities).embedding_
-print(len(pos))
+    pos = mds.fit(similarities).embedding_
 
-fig = plt.figure(figsize=(12,10))
+    label_list = ['kitchen messy', 'bathroom messy', 'bedroom messy']
 
-# colors = ['red','blue','green','orange', 'black']
-# label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
-label_list = ['bathroom']
-# label_list = ['dog', 'cat']
-group = np.array(annot_list)
-# colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
-colors = {'bathroom':'red'}
-# colors = {'dog':'red', 'cat':'blue'}
-col_list = [c for c in map(lambda x: colors[x],annot_list)]
-print(len(col_list))
-print(col_list)
-fig, ax = plt.subplots()
+    group = np.array(annot_list)
 
-scatter_x = np.array(pos[:, 0])
-scatter_y = np.array(pos[:,1])
-for g in np.unique(group):
-    ix = np.where(group == g)
-    ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
+    colors = {'kitchen messy':'red', 'bathroom messy':'blue', 'bedroom messy':'green'}
 
-# Plot image instead of point
-# obtaine file paths for each image
-annFile = '/newvolume/annotations/instances_val2014.json'
-coco_val = COCO(annFile)
-ids = coco_val.getAnnIds()
-annotations = coco_val.loadAnns(ids)
+    col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
-img_info = {}
-for ann in annotations:
-    image_id = ann['image_id']
-    if image_id not in img_info:
-        img_info[image_id] = coco_val.imgs[image_id]
+    fig, ax = plt.subplots()
 
-img_path_list = []
-for image_id, info in img_info.items():
-    file_name = info['file_name']
-    img = '/newvolume/val2014/' + file_name
-    img_path_list.append(img)
+    scatter_x = np.array(pos[:, 0])
+    scatter_y = np.array(pos[:,1])
+    for g in np.unique(group):
+        ix = np.where(group == g)
+        ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
 
-# Slice out the relevant images
-img_subset = list(map(img_path_list.__getitem__, indices_list))
+
+    ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
+    ax.legend(loc='lower right')
+
+    plt.show()
+
+    plt.savefig('/newvolume/images_messy.pdf')
+
+gen_scatter_multi_tag(annot_list, indices_list)
+
+def gen_scatter_single_tag(annot_list, indices_list):
+    # Load score matrix
+    scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
+    scores = scores_obj['scores']
+
+    print(len(scores))
+
+    # Slice out the scores relating to the images tags with the relevant tags
+    score_subset = list(map(scores.__getitem__, indices_list))
+
+    # Generate MDS object
+    mds = MDS(n_components=2, dissimilarity="precomputed")
+
+    # Calculate euclidean distance between each image word vector
+    similarities = euclidean_distances(score_subset)
+
+    pos = mds.fit(similarities).embedding_
+    print(len(pos))
+
+    fig = plt.figure(figsize=(12,10))
+
+    # colors = ['red','blue','green','orange', 'black']
+    # label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
+    label_list = ['bathroom']
+    # label_list = ['dog', 'cat']
+
+    group = np.array(annot_list)
+
+    # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
+    colors = {'bathroom':'red'}
+    # colors = {'dog':'red', 'cat':'blue'}
+    col_list = [c for c in map(lambda x: colors[x],annot_list)]
+    print(len(col_list))
+    print(col_list)
+    fig, ax = plt.subplots()
+
+    scatter_x = np.array(pos[:, 0])
+    scatter_y = np.array(pos[:,1])
+    for g in np.unique(group):
+        ix = np.where(group == g)
+        ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
 
 ################################################################################
-# Uncomment for loop below to add images instead of dots as points of scatter plot
-# dest = '/newvolume/bathroom'
-# for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
-#     print(path)
-#     # shutil.copy(path, dest)
-#     ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
-#     ax.add_artist(ab)
-################################################################################
+# Uncomment section below to add images instead of dots as points of scatter plot
+    # Plot image instead of point
+    # obtaine file paths for each image
+    # annFile = '/newvolume/annotations/instances_val2014.json'
+    # coco_val = COCO(annFile)
+    # ids = coco_val.getAnnIds()
+    # annotations = coco_val.loadAnns(ids)
+
+    # img_info = {}
+    # for ann in annotations:
+    #     image_id = ann['image_id']
+    #     if image_id not in img_info:
+    #         img_info[image_id] = coco_val.imgs[image_id]
+
+    # img_path_list = []
+    # for image_id, info in img_info.items():
+    #     file_name = info['file_name']
+    #     img = '/newvolume/val2014/' + file_name
+    #     img_path_list.append(img)
+
+    # # Slice out the relevant images
+    # img_subset = list(map(img_path_list.__getitem__, indices_list))
 
 
-ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
-ax.legend(loc='lower right')
-# colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange', 'notlabelled': 'white'}
-
-# col_list = [c for c in map(lambda x: colors[x],annot_list)]
-# plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
-
-# col_list = [c for c in map(lambda x: colors[x],annot_list)]
-# plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
-plt.show()
-
-plt.savefig('/newvolume/images_bathroom.pdf')
+    # dest = '/newvolume/bathroom'
+    # for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
+    #     print(path)
+    #     # shutil.copy(path, dest)
+    #     ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
+    #     ax.add_artist(ab)
+    ################################################################################
 
 
-# ax = plt.subplots(1)
-# # Plot and label scatter plot
-# for val in range(len(pos)):
-#     plt.scatter(pos[val, 0], pos[val, 1], label= annot_list[val])
+    ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
+    ax.legend(loc='lower right')
+    # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange', 'notlabelled': 'white'}
 
-# ax.legend()
+    # col_list = [c for c in map(lambda x: colors[x],annot_list)]
+    # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 
-# # plt.scatter(pos[:, 0], pos[:, 1])
+    # col_list = [c for c in map(lambda x: colors[x],annot_list)]
+    # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
+    plt.show()
+
+    plt.savefig('/newvolume/images_bathroom.pdf')
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,3 +1,4 @@
+from collections import OrderedDict
 
 # Generate function which obtains labels for each image based on presence of specific tag returns a list of with a single tag for each image
 ann_dict  = {'kitchen': ['kitchen', 'messy'], 'bathroom': ['bathroom', 'messy'], 'bedroom': ['bedroom', 'messy']}
@@ -6,7 +7,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
     index_pos = []
     index_count = 0
     add_ann = None
-    ann_out_dict = {}
+    ann_out_dict = OrderedDict()
     # Annotate scatter with a list of tags
     if ann_dict is not None:
         for img in top5_array:
@@ -23,8 +24,8 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
                 index_count += 1
             else:
                 index_count += 1
-
-        return ann_dict, index_pos
+        ann_out = [" ".join(ann_out_dict[elem]) for elem in ann_out_dict]
+        return ann_out, index_pos
 
     # Annotate scatter with a single tags
     if ann_list is not None:
