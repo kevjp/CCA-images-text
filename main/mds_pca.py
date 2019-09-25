@@ -2,9 +2,15 @@ import numpy as np
 from sklearn.manifold import MDS
 from sklearn.metrics import euclidean_distances
 import scipy
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import os
+from matplotlib.image import BboxImage
+from matplotlib.transforms import Bbox, TransformedBbox
+from pycocotools.coco import COCO
+from annotation_scatter import annotate_scatter
 
-
-
+def getImage(path):
+    return OffsetImage(plt.imread(path, 0), zoom=0.05)
 
 
 
@@ -28,42 +34,7 @@ def grouper(n, iterable, fillvalue=None):
     "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
     return zip_longest(fillvalue=fillvalue, *args)
-# Generate function which obtains labels for each image based on presence of specific tag returns a list of with a single tag for each image
-def annotate_scatter(top5_array, ann_list):
-    ann_out = []
-    index_pos = []
-    index_count = 0
-    add_ann = None
-    for img in top5_array:
-        score = 6
-        add_ann = None
-        if ann_list[0] in  img[1]:
-            add_ann = ann_list[0]
-            score = img[1].index(ann_list[0])
-        if ann_list[1] in  img[1]:
-            if img[1].index(ann_list[1]) < score:
-                add_ann = ann_list[1]
-                score = img[1].index(ann_list[1])
-        if ann_list[2] in  img[1]:
-            if img[1].index(ann_list[2]) < score:
-                add_ann = ann_list[2]
-                score = img[1].index(ann_list[2])
-        if ann_list[3] in  img[1]:
-            if img[1].index(ann_list[3]) < score:
-                add_ann = ann_list[3]
-                score = img[1].index(ann_list[3])
-        if ann_list[4] in  img[1]:
-            if img[1].index(ann_list[4]) < score:
-                add_ann = ann_list[4]
-                score = img[1].index(ann_list[4])
-        # add anootation to list
-        if add_ann is not None:
-            ann_out.append(add_ann)
-            index_pos.append(index_count)
-            index_count += 1
-        else:
-            index_count += 1
-    return ann_out, index_pos
+
 
 f = open('/newvolume/outputs/i2t_results.txt', 'r')
 # Array of top 5 tags for each image
@@ -71,7 +42,8 @@ X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line
 
 # Generate annotation tag for each image
 annot_list, indices_list = annotate_scatter(X, ["kitchen", "bedroom", "bathroom", "washroom", "tarmac"])
-
+# annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
+print(annot_list)
 print(len(annot_list))
 print(len(indices_list))
 
@@ -91,20 +63,67 @@ mds = MDS(n_components=2, dissimilarity="precomputed")
 similarities = euclidean_distances(score_subset)
 
 pos = mds.fit(similarities).embedding_
+print(len(pos))
 
 fig = plt.figure(figsize=(12,10))
 
-colors = ['red','blue','green','orange', 'black']
+# colors = ['red','blue','green','orange', 'black']
+label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
+# label_list = ['dog', 'cat']
+group = np.array(annot_list)
+colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
+# colors = {'dog':'red', 'cat':'blue'}
+col_list = [c for c in map(lambda x: colors[x],annot_list)]
+print(len(col_list))
+print(col_list)
+fig, ax = plt.subplots()
 
-plt.scatter(pos[:, 0], pos[:, 1], label= annot_list, cmap=colors)
+scatter_x = np.array(pos[:, 0])
+scatter_y = np.array(pos[:,1])
+for g in np.unique(group):
+    ix = np.where(group == g)
+    ax.scatter(scatter_x[ix], scatter_y[ix], c = colors[g],  label = g)
 
+# Plot image instead of point
+# obtaine file paths for each image
+annFile = '/newvolume2/annotations/instances_val2014.json'
+coco_val = COCO(annFile)
+ids = coco_val.getAnnIds()
+annotations = coco_val.loadAnns(ids)
+
+img_info = {}
+for ann in annotations:
+    image_id = ann['image_id']
+    if image_id not in img_info:
+        img_info[image_id] = coco_val.imgs[image_id]
+
+img_path_list = []
+for image_id, info in img_info.items():
+    file_name = info['file_name']
+    img = '/newvolume2/val2014/' + file_name
+    img_path_list.append(img)
+
+# Slice out the relevant images
+img_subset = list(map(img_path_list.__getitem__, indices_list))
+
+
+for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
+    print(path)
+    ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
+    ax.add_artist(ab)
+
+# ax.scatter(pos[:, 0], pos[:, 1], label= label_list, color=col_list)
+# ax.legend(loc='lower right')
 # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange', 'notlabelled': 'white'}
+
+# col_list = [c for c in map(lambda x: colors[x],annot_list)]
+# plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 
 # col_list = [c for c in map(lambda x: colors[x],annot_list)]
 # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 plt.show()
 
-plt.savefig('/newvolume/images_2000.pdf')
+plt.savefig('/newvolume/images_kitchenVbathroomVbedroom.pdf')
 
 
 # ax = plt.subplots(1)
@@ -201,7 +220,3 @@ plt.savefig('/newvolume/images_2000.pdf')
 #                               ticks='', showticklabels=False),
 #                    yaxis=dict(zeroline=False, showgrid=False,
 #                               ticks='', showticklabels=False),
-#                    height=900, hovermode='closest')
-# fig = go.Figure(data=data, layout=layout)
-
-# plot(fig)
