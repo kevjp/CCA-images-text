@@ -65,8 +65,10 @@ def count_words_google_data():
     for feature in feature_type:
         for room in room_type:
             ann_directory = "/newvolume/{}/images/image_annotations/{}/ann".format(feature, room)
+            img_directory = "/newvolume/{}}/images/images/{}}".format(feature, room)
             for filename in os.listdir(ann_directory):
-                file_path = ann_directory + "/" + filename
+                img_file = filename.split('.json')[0]
+                file_path = img_directory + "/" + img_file
                 if filename != ".DS_Store":
                     with open(ann_directory + "/" + filename) as f:
                         ann = json.load(f)
