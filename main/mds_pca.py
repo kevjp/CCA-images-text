@@ -41,7 +41,7 @@ f = open('/newvolume/outputs/i2t_results.txt', 'r')
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
-annot_list, indices_list = annotate_scatter(X, ["kitchen", "bedroom", "bathroom", "washroom", "tarmac"])
+annot_list, indices_list = annotate_scatter(X, ann_list = ["kitchen", "bedroom", "bathroom", "washroom", "tarmac"])
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 print(annot_list)
 print(len(annot_list))

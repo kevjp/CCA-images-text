@@ -1,9 +1,7 @@
 
 # Generate function which obtains labels for each image based on presence of specific tag returns a list of with a single tag for each image
 ann_dict  = {'kitchen': ['kitchen', 'messy'], 'bathroom': ['bathroom', 'messy'], 'bedroom': ['bedroom', 'messy']}
-def annotate_scatter(top5_array, ann_list, ann_dict):
-    ann_dict =  None
-    ann_list =  None
+def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
     ann_out = []
     index_pos = []
     index_count = 0
