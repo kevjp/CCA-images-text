@@ -113,8 +113,8 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     # Slice out the relevant images
     img_subset = list(map(img_path_list.__getitem__, indices_list))
 
-
-    dest = '/newvolume/bathroom'
+    print(len(img_subset))
+    dest = '/newvolume/kitchen_preparing'
     for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
         print(path)
         shutil.copy(path, dest)
