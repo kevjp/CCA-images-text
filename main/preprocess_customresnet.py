@@ -10,6 +10,7 @@ import pickle
 import progressbar
 import nltk
 import numpy as np
+import json
 
 """
 Need to perform the following copies
