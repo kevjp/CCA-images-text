@@ -163,7 +163,7 @@ def calc_features():
             ind = index[i]
             f.write(words_list[ind] + ', ' + str(words_count[ind]) + '\n')
         for caption in img_captions[image_id]:
-            print(caption)
+            print(caption['name'])
             f.write(caption + '\n')
 
         img = image.img_to_array(img)
