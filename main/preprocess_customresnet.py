@@ -205,6 +205,10 @@ def calc_features():
             if i < len(index):
                 continue
             else:
+                print(image_id)
+                print(index)
+                print(index[i])
+                print(words_list)
                 f.write(words_list[ index[i] ] + '\n')
         for i in range(0,min(5,len(index))):
             ind = index[i]
