@@ -235,8 +235,8 @@ def calc_features():
     tag_features_coco = train_features_coco['tag_features']
 
     # append to img_features data generated from room data
-    img_features_joined = img_features_coco + img_features
-    tag_features_joined = tag_features_coco + tag_features
+    img_features_joined = np.append(img_features_coco, img_features, axis=0)
+    tag_features_joined = tnp.append(tag_features_coco, tag_features, axis=0)
 
 
     logging.info('Training: saving features calculated for all the images')
