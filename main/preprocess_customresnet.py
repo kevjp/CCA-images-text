@@ -145,11 +145,11 @@ def copy_images_back():
     move_file = np.load('move_file.npz')
     move_file_paths = move_file['source_paths']
 
-    for path in move_file_paths:
-        # get file name
-        split_f = path.split('/')[-1]
-        source_file_path = '/newvolume/moved_files/' + split_f
-        move(source_file_path, path)
+for path in move_file_paths:
+    # get file name
+    split_f = path.split('/')[-1]
+    source_file_path = '/newvolume/moved_files/' + split_f
+    move(source_file_path, path)
 
 
 
@@ -170,7 +170,7 @@ def calc_features():
 
     possible_tags = set()
 
-    f = open('train_tags.txt', 'w')
+    f = open('train_tags_room_data.txt', 'w')
     pos = 0
     logging.info('Training: calculate image features, choose tag for each image')
     bar = progressbar.ProgressBar()
@@ -227,13 +227,28 @@ def calc_features():
         pos += 1
         if pos % 20000 == 0:
             logging.info('Training: saving features calculated for the first %d images', pos)
-            np.savez_compressed('train_features', img_features=img_features[:TAGS_PER_IMAGE * pos,:], tag_features=tag_features[:TAGS_PER_IMAGE * pos,:])
+            np.savez_compressed('train_features_room_data', img_features=img_features[:TAGS_PER_IMAGE * pos,:], tag_features=tag_features[:TAGS_PER_IMAGE * pos,:])
+
+    # load Coco data outputs
+    train_features_coco = np.load('train_features.npz')
+    img_features_coco = train_features_coco['img_features']
+    tag_features_coco = train_features_coco['tag_features']
+
+    # append to img_features data generated from room data
+    img_features_joined = img_features_coco + img_features
+    tag_features_joined = tag_features_coco + tag_features
+
 
     logging.info('Training: saving features calculated for all the images')
-    np.savez_compressed('train_features', img_features=img_features, tag_features=tag_features)
+    np.savez_compressed('train_features_joined', img_features=img_features_joined, tag_features=tag_features_joined)
+
+    # load tags from Coco data
+    possible_tags_coco = pickle.load(open('possible_tags.pkl', 'rb'))
+    possible_tags_joined = possible_tags_coco + possible_tags
+
 
     logging.info('Training: number of possible tags = %d', len(possible_tags))
-    pickle.dump(possible_tags, open('possible_tags.pkl', 'wb'))
+    pickle.dump(possible_tags_joined, open('possible_tags_joined.pkl', 'wb'))
 
 
 if __name__ == "__main__":
