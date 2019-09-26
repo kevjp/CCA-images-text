@@ -156,11 +156,11 @@ def copy_images_basck():
 def calc_features():
     model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
     # Load my own custom room type multilabel classifier
-    net = load_model('/newvolume/resnet_classifier')
-    # net = VGG16(weights='imagenet', include_top=True)
-    # net.layers.pop()
-    # net.outputs = [net.layers[-1].output]
-    # net.layers[-1].outbound_nodes = []
+    # net = load_model('/newvolume/resnet_classifier')
+    net = VGG16(weights='imagenet', include_top=True)
+    net.layers.pop()
+    net.outputs = [net.layers[-1].output]
+    net.layers[-1].outbound_nodes = []
 
     TAGS_PER_IMAGE = args.tagsPerImage
     print ('Tags per image', TAGS_PER_IMAGE)
@@ -179,7 +179,7 @@ def calc_features():
         # file_name = coco_train.imgs[image_id]['file_name']
         # img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224))
         file_name = image_id.split('.json')
-        img = image.load_img(file_name[0], target_size=(224, 224, 3))
+        img = image.load_img(file_name[0], target_size=(224, 224))
 
         words_list = []
         words_count = []
