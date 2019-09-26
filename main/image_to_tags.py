@@ -22,8 +22,8 @@ pca = projections['pca'].item()
 W_img = projections['W_img']
 W_tag = projections['W_tag']
 
-assert os.path.isfile('possible_tags.pkl')
-possible_tags = pickle.load(open('possible_tags.pkl', 'rb'))
+assert os.path.isfile('possible_tags_joined.pkl')
+possible_tags = pickle.load(open('possible_tags_joined.pkl', 'rb'))
 
 model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
 tags = []
