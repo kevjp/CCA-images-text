@@ -197,7 +197,8 @@ def calc_features():
 
         words_count = np.array(words_count)
         index = np.argsort(words_count)[::-1]
-
+        print(words_list)
+        print(words_count)
         # f.write(coco_train.imgs[image_id]['flickr_url'] + '\n')
         f.write(image_id + '\n')
 
@@ -207,7 +208,7 @@ def calc_features():
             else:
                 print(image_id)
                 print(index)
-                print(index[i])
+                print(len(index))
                 print(words_list)
                 f.write(words_list[ index[i] ] + '\n')
         for i in range(0,min(5,len(index))):
