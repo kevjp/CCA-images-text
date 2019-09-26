@@ -108,7 +108,7 @@ if __name__ == "__main__":
     parser.add_argument('--tagsPerImage', default=2, type=int, help='amount of tags per image')
     args = parser.parse_args()
 
-    annFile = '/newvolume/annotations/captions_train2014.json'
+    annFile = '/newvolume/annotations/captions_val2014.json'
     coco_train = COCO(annFile)
     ids = coco_train.getAnnIds()
     annotations = coco_train.loadAnns(ids)
