@@ -244,7 +244,7 @@ def calc_features():
 
     # load tags from Coco data
     possible_tags_coco = pickle.load(open('possible_tags.pkl', 'rb'))
-    possible_tags_joined = possible_tags_coco + possible_tags
+    possible_tags_joined = np.append(possible_tags_coco, possible_tags, axis=0)
 
 
     logging.info('Training: number of possible tags = %d', len(possible_tags))
