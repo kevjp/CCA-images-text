@@ -16,9 +16,9 @@ parser.add_argument('--gpu', action='store_true', default=False, help='use gpu')
 parser.add_argument('--npca', default=-1, type=int, help='number of points used to calculate PCA')
 args = parser.parse_args()
 
-assert os.path.isfile('train_features.npz')
+assert os.path.isfile('train_features_joined.npz')
 logging.info('Loading features file')
-train_features = np.load('train_features.npz')
+train_features = np.load('train_features_joined.npz')
 img_features = train_features['img_features']
 tag_features = train_features['tag_features']
 
