@@ -1,6 +1,7 @@
 from gensim.models import word2vec, KeyedVectors
 from keras.applications.vgg16 import VGG16, preprocess_input
 from keras.preprocessing import image
+from keras.models import load_model
 from pycocotools.coco import COCO
 import argparse
 import logging
