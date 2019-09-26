@@ -123,7 +123,7 @@ def count_words_google_data():
                         # move annotation and image file to another folder area if image dies not have the appropriate number of tags
                         print(img_count[file_path])
                         print(len(img_count[file_path]))
-                        sys.exit("Error message")
+                        # sys.exit("Error message")
                         if len(img_count[file_path]) < args.tagsPerImage:
                             if not os.path.exists('/newvolume/moved_files'):
                                 # make directory to move file to
