@@ -37,14 +37,16 @@ def count_words():
 
 def calc_features():
     model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
-    net = VGG16(weights='imagenet', include_top=True)
+    # net = VGG16(weights='imagenet', include_top=True)
+    net = load_model('/newvolume/resnet_classifier')
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
 
     TAGS_PER_IMAGE = args.tagsPerImage
     print ('Tags per image', TAGS_PER_IMAGE)
-    img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 4096), dtype=np.float32)
+    # img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 4096), dtype=np.float32)
+    img_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 256), dtype=np.float32)
     tag_features = np.zeros((TAGS_PER_IMAGE * len(img_count), 200), dtype=np.float32)
 
     possible_tags = set()
