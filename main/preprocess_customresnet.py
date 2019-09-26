@@ -142,14 +142,14 @@ def count_words_google_data():
 
 
 def copy_images_back():
-    move_file = np.load('move_file.npz')
+    move_file = np.load('/home/ubuntu/CCA-images-text/main/move_file.npz')
     move_file_paths = move_file['source_paths']
 
-for path in move_file_paths:
-    # get file name
-    split_f = path.split('/')[-1]
-    source_file_path = '/newvolume/moved_files/' + split_f
-    move(source_file_path, path)
+    for path in move_file_paths:
+        # get file name
+        split_f = path.split('/')[-1]
+        source_file_path = '/newvolume/moved_files/' + split_f
+        move(source_file_path, path)
 
 
 
