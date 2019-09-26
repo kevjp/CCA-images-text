@@ -215,8 +215,6 @@ def calc_features():
         img = np.expand_dims(img, axis=0)
         img = preprocess_input(img)
         features = net.predict(img)[0]
-        print("hello")
-        print(features)
         features = features.reshape(-1)
 
         for i in range(TAGS_PER_IMAGE):
