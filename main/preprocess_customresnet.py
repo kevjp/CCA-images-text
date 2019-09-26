@@ -79,27 +79,27 @@ def count_words_google_data():
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                                img_count[file_path][tokens[0]] = 2 # Increase count for room type to ensure tag is included for each image
                             if ob['name'] == "Living Room":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                                img_count[file_path][tokens[0]] = 2
                             if ob['name'] == "Bedroom":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                                img_count[file_path][tokens[0]] = 2
                             if ob['name'] == "Bathroom":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                                img_count[file_path][tokens[0]] = 2
                             if ob['name'] == "Kitchen Island":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                                img_count[file_path][tokens[1]] = 1 # take the second word in order to ID the word island
                             if ob['name'] == "Fireplace":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
@@ -161,6 +161,8 @@ def calc_features():
         f.write(image_id + '\n')
         for i in range(TAGS_PER_IMAGE):
             if i < len(index):
+                continue
+            else:
                 f.write(words_list[ index[i] ] + '\n')
         for i in range(0,min(5,len(index))):
             ind = index[i]
@@ -176,6 +178,8 @@ def calc_features():
 
         for i in range(TAGS_PER_IMAGE):
             if i < len(index):
+                continue
+            else:
                 ind = index[i]
                 img_features[TAGS_PER_IMAGE * pos + i,:] = features
                 tag_features[TAGS_PER_IMAGE * pos + i,:] = model[ words_list[ind] ]
