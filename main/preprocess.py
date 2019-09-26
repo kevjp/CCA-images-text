@@ -36,7 +36,7 @@ def count_words():
     logging.info('Training: number of images = %d', len(img_count))
 
 def calc_features():
-    model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
+    model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
     net = VGG16(weights='imagenet', include_top=True)
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
@@ -55,7 +55,7 @@ def calc_features():
     bar = progressbar.ProgressBar()
     for image_id, words in bar(img_count.items()):
         file_name = coco_train.imgs[image_id]['file_name']
-        img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224))
+        img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224))
 
         words_list = []
         words_count = []
@@ -81,6 +81,7 @@ def calc_features():
         img = preprocess_input(img)
         features = net.predict(img)
         features = features.reshape(-1)
+        print(features)
 
         for i in range(TAGS_PER_IMAGE):
             ind = index[i]
