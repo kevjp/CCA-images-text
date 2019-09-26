@@ -180,7 +180,7 @@ def calc_features():
         # file_name = coco_train.imgs[image_id]['file_name']
         # img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224))
         file_name = image_id.split('.json')
-        img = image.load_img(file_name[0], target_size=(224, 224))
+        img = image.load_img(file_name[0], target_size=(224, 224, 3))
 
         words_list = []
         words_count = []
