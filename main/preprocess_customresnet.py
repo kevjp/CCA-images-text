@@ -110,11 +110,11 @@ def count_words_google_data():
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
                                 img_count[file_path][tokens[0]] = 1
-                            if ob['name'] == "Skylight":
-                                tokens = nltk.word_tokenize(ob['name'])
-                                tokens = [w.lower() for w in tokens]
-                                tokens = [w for w in tokens if not w in stop]
-                                img_count[file_path][tokens[0]] = 1
+                            # if ob['name'] == "Skylight":
+                            #     tokens = nltk.word_tokenize(ob['name'])
+                            #     tokens = [w.lower() for w in tokens]
+                            #     tokens = [w for w in tokens if not w in stop]
+                            #     img_count[file_path][tokens[0]] = 1
                             if ob['name'] == "Wood Floor":
                                 tokens = nltk.word_tokenize(ob['name'])
                                 tokens = [w.lower() for w in tokens]
@@ -139,12 +139,6 @@ def count_words_google_data():
                             del img_captions[file_path]
 
     np.savez_compressed('move_file', source_paths = np.array(move_file))
-    count = 0
-    for image_id, words in img_count.items():
-        if count < 395:
-            print(image_id, len(words))
-        else:
-            break
 
 
 def copy_images_basck():
