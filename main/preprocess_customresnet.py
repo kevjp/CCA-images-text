@@ -139,6 +139,13 @@ def count_words_google_data():
                             del img_captions[file_path]
 
     np.savez_compressed('move_file', source_paths = np.array(move_file))
+    count = 0
+    for image_id, words in img_count.items():
+        if count < 395:
+            print(image_id, len(words))
+        else:
+            break
+
 
 def copy_images_basck():
     move_file = np.load('move_file.npz')
