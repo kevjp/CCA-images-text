@@ -59,7 +59,7 @@ def count_words():
 
     logging.info('Training: number of images = %d', len(img_count))
 def count_words_google_data():
-    feature_type = ["Fireplaces", "Hardwood_Floors", "Kitchen_Islands", "Skylights"]
+    feature_type = ["Fireplaces", "Hardwood_Floors", "Kitchen_Islands", "Skylights", "ADE20K_tagged"]
     room_type = ["living_room", "kitchen", "bedroom", "bathroom"]
     # Iterate over images collected for each feature type
     stop = set(nltk.corpus.stopwords.words('english'))
@@ -141,7 +141,7 @@ def count_words_google_data():
     np.savez_compressed('move_file', source_paths = np.array(move_file))
 
 
-def copy_images_basck():
+def copy_images_back():
     move_file = np.load('move_file.npz')
     move_file_paths = move_file['source_paths']
 
@@ -156,8 +156,8 @@ def copy_images_basck():
 def calc_features():
     model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
     # Load my own custom room type multilabel classifier
-    # net = load_model('/newvolume/resnet_classifier')
-    net = VGG16(weights='imagenet', include_top=True)
+    net = load_model('/newvolume/resnet_classifier')
+    # net = VGG16(weights='imagenet', include_top=True)
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
