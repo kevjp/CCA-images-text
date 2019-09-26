@@ -219,12 +219,9 @@ def calc_features():
         features = features.reshape(-1)
 
         for i in range(TAGS_PER_IMAGE):
-            if i < len(index):
-                continue
-            else:
-                ind = index[i]
-                img_features[TAGS_PER_IMAGE * pos + i,:] = features
-                tag_features[TAGS_PER_IMAGE * pos + i,:] = model[ words_list[ind] ]
+            ind = index[i]
+            img_features[TAGS_PER_IMAGE * pos + i,:] = features
+            tag_features[TAGS_PER_IMAGE * pos + i,:] = model[ words_list[ind] ]
         possible_tags.add(words_list[ index[0] ])
 
         pos += 1
