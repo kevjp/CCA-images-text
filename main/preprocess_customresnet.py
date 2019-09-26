@@ -12,6 +12,8 @@ import nltk
 import numpy as np
 import json
 from shutil import move
+import sys
+
 
 """
 Need to perform the following copies
@@ -119,6 +121,9 @@ def count_words_google_data():
                                 tokens = [w for w in tokens if not w in stop]
                                 img_count[file_path][tokens[0]] = 1
                         # move annotation and image file to another folder area if image dies not have the appropriate number of tags
+                        print(img_count[file_path])
+                        print(len(img_count[file_path]))
+                        sys.exit("Error message")
                         if len(img_count[file_path]) < args.tagsPerImage:
                             if not os.path.exists('/newvolume/moved_files'):
                                 # make directory to move file to
@@ -134,6 +139,17 @@ def count_words_google_data():
                             del img_captions[file_path]
 
     np.savez_compressed('move_file', source_paths = np.array(move_file))
+
+def copy_images_basck():
+    move_file = np.load('move_file.npz')
+    move_file_paths = move_file['source_paths']
+
+    for path in move_file_paths:
+        # get file name
+        split_f = path.split('/')[-1]
+        source_file_path = '/newvolume/moved_files/' + split_f
+        move(source_file_path, path)
+
 
 
 def calc_features():
