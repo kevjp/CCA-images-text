@@ -159,7 +159,6 @@ def calc_features():
     net = load_model('/newvolume/resnet_classifier')
     # net = VGG16(weights='imagenet', include_top=True)
     net.layers.pop()
-    net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
 
@@ -215,7 +214,7 @@ def calc_features():
         img = image.img_to_array(img)
         img = np.expand_dims(img, axis=0)
         img = preprocess_input(img)
-        features = net.predict(img)
+        features = net.predict(img)[0]
         print("hello")
         print(features)
         features = features.reshape(-1)
