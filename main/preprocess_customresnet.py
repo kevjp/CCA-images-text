@@ -11,6 +11,7 @@ import progressbar
 import nltk
 import numpy as np
 import json
+from shutil import move
 
 """
 Need to perform the following copies
@@ -62,6 +63,7 @@ def count_words_google_data():
     stop = set(nltk.corpus.stopwords.words('english'))
     logging.info('Count word frequencies, number of annotations = %d', len(annotations))
     bar = progressbar.ProgressBar()
+    move_file = []
     for feature in feature_type:
         for room in room_type:
             ann_directory = "/newvolume/{}/images/image_annotations/{}/ann".format(feature, room)
@@ -69,8 +71,9 @@ def count_words_google_data():
             for filename in os.listdir(ann_directory):
                 img_file = filename.split('.json')[0]
                 file_path = img_directory + "/" + img_file
+                ann_path = ann_directory + "/" + filename
                 if filename != ".DS_Store":
-                    with open(ann_directory + "/" + filename) as f:
+                    with open(ann_path) as f:
                         ann = json.load(f)
                         img_count[file_path] = {}
                         img_captions[file_path] = ann['tags']
@@ -115,7 +118,22 @@ def count_words_google_data():
                                 tokens = [w.lower() for w in tokens]
                                 tokens = [w for w in tokens if not w in stop]
                                 img_count[file_path][tokens[0]] = 1
+                        # move annotation and image file to another folder area if image dies not have the appropriate number of tags
+                        if len(img_count[file_path]) < args.tagsPerImage:
+                            if not os.path.exists('/newvolume/moved_files'):
+                                # make directory to move file to
+                                os.mkdir('/newvolume/moved_files')
+                            # move image file
+                            # generate file paths to allow file to be moved back afterwards
+                            move_file.append(file_path)
+                            move(file_path, '/newvolume/moved_files')
+                            # move annotation file
+                            move_file.append(ann_path)
+                            move(ann_path, '/newvolume/moved_files')
+                            del img_count[file_path]
+                            del img_captions[file_path]
 
+    np.savez_compressed('move_file', source_paths = np.array(move_file))
 
 
 def calc_features():
@@ -159,6 +177,7 @@ def calc_features():
 
         # f.write(coco_train.imgs[image_id]['flickr_url'] + '\n')
         f.write(image_id + '\n')
+
         for i in range(TAGS_PER_IMAGE):
             if i < len(index):
                 continue
