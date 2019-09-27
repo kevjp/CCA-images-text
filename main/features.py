@@ -21,7 +21,7 @@ def calc_testing_image_features(img_info, pca, W_img):
     logging.info('Testing: precalculate image features')
     for image_id, info in img_info.items():
         file_name = info['file_name']
-        img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224))
+        img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224, 3))
         img_ids.append(image_id)
 
         img = image.img_to_array(img)
