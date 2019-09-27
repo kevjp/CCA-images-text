@@ -37,14 +37,15 @@ def grouper(n, iterable, fillvalue=None):
     return zip_longest(fillvalue=fillvalue, *args)
 
 
-f = open('/newvolume/outputs/i2t_results.txt', 'r')
+f = open('/home/ubuntu/CCA-images-text/main/i2t_results.txt', 'r')
 # Array of top 5 tags for each image
 X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line1, line2 in grouper(2, f)]
 
 # Generate annotation tag for each image
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter'], 'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter']}
-ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
+# ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
+ann_dict  = {'kitchen': ['kitchen'], 'bedroom': ['bedroom'], 'bathroom': ['bathroom'], 'living': ['living']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
@@ -56,7 +57,7 @@ print(len(indices_list))
 
 def gen_scatter_multi_tag(annot_list, indices_list):
     # Load score matrix
-    scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
+    scores_obj = np.load('/newvolume/score_matrix.npz')
     scores = scores_obj['scores']
 
     # Slice out the scores relating to the images tags with the relevant tags
@@ -71,11 +72,13 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     pos = mds.fit(similarities).embedding_
 
     # label_list = ['kitchen counter', 'kitchen refrigerator']
-    label_list = ['kitchen refrigerator']
+    # label_list = ['kitchen refrigerator']
+    label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
 
     group = np.array(annot_list)
 
-    colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
+    # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
+    colors = {'kitchen':'red', 'bedroom': 'blue', 'bathroom': 'green', 'living': 'orange'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -118,7 +121,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     print(len(img_subset))
     # dest = '/newvolume/kitchen_counter'
-    dest = '/newvolume/kitchen_refrigerator'
+    dest = '/newvolume/mds_results'
     for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
         print(path)
         shutil.copy(path, dest)
@@ -130,16 +133,16 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     plt.show()
 
-    plt.savefig('/newvolume/images_kitchen_refrigerator.pdf')
+    plt.savefig('/newvolume/images_room_type.pdf')
 
-gen_scatter_multi_tag(annot_list, indices_list)
+# gen_scatter_multi_tag(annot_list, indices_list)
 
 
 
 
 def gen_scatter_single_tag(annot_list, indices_list):
     # Load score matrix
-    scores_obj = np.load('/newvolume/outputs/score_matrix.npz')
+    scores_obj = np.load('/newvolume/score_matrix.npz')
     scores = scores_obj['scores']
 
     print(len(scores))
@@ -159,14 +162,14 @@ def gen_scatter_single_tag(annot_list, indices_list):
     fig = plt.figure(figsize=(12,10))
 
     # colors = ['red','blue','green','orange', 'black']
-    # label_list = ['kitchen', 'bedroom', 'bathroom', 'washroom', 'tarmac']
-    label_list = ['bathroom']
+    label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
+    # label_list = ['bathroom']
     # label_list = ['dog', 'cat']
 
     group = np.array(annot_list)
 
-    # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'washroom':'black', 'tarmac': 'orange'}
-    colors = {'bathroom':'red'}
+    colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
+    # colors = {'bathroom':'red'}
     # colors = {'dog':'red', 'cat':'blue'}
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
@@ -222,9 +225,9 @@ def gen_scatter_single_tag(annot_list, indices_list):
     # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
     plt.show()
 
-    plt.savefig('/newvolume/images_bathroom.pdf')
+    plt.savefig('/newvolume/images_room_type.pdf')
 
-
+gen_scatter_single_tag(annot_list, indices_list)
 
 
 
