@@ -6,9 +6,11 @@ import numpy as np
 import os
 import pickle
 import time
+import progressbar
 
 import features
 
+bar = progressbar.ProgressBar()
 logging.basicConfig(filename='cca.log', format='%(asctime)s %(message)s', level=logging.INFO)
 
 annFile = '/newvolume/annotations/instances_val2014.json'
@@ -64,7 +66,7 @@ start = time.time()
 # Generate a score matrix for all images for all words in the glossary of terms
 print(N_TEST,N_TAGS)
 scores = np.zeros((N_TEST,N_TAGS))
-for image_id in img_ids:
+for image_id in bar(img_ids):
     v_img = img_features[pos]
     for i in range(N_TAGS):
         tag_features = tag_features_list[i]

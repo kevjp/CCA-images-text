@@ -3,9 +3,11 @@ from keras.preprocessing import image
 from keras.models import load_model
 import numpy as np
 import logging
+import progressbar
 
 def calc_testing_image_features(img_info, pca, W_img):
     N_TEST = len(img_info)
+    bar = progressbar.ProgressBar()
     logging.info('Testing: number of image = %d', N_TEST)
 
     # net = VGG16(weights='imagenet', include_top=True)
@@ -19,7 +21,7 @@ def calc_testing_image_features(img_info, pca, W_img):
 
     pos = 0
     logging.info('Testing: precalculate image features')
-    for image_id, info in img_info.items():
+    for image_id, info in bar(img_info.items()):
         file_name = info['file_name']
         img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224, 3))
         img_ids.append(image_id)
