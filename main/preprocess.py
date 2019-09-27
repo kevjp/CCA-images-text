@@ -58,7 +58,7 @@ def calc_features():
     bar = progressbar.ProgressBar()
     for image_id, words in bar(img_count.items()):
         file_name = coco_train.imgs[image_id]['file_name']
-        img = image.load_img('/newvolume/val2014/' + file_name, target_size=(224, 224))
+        img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224, 3))
 
         words_list = []
         words_count = []
