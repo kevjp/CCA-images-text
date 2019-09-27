@@ -38,8 +38,8 @@ def count_words():
 
 def calc_features():
     model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
-    # net = VGG16(weights='imagenet', include_top=True)
-    net = load_model('/newvolume/resnet_classifier')
+    net = VGG16(weights='imagenet', include_top=True)
+    # net = load_model('/newvolume/resnet_classifier')
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []

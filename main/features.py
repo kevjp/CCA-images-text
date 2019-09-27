@@ -10,8 +10,8 @@ def calc_testing_image_features(img_info, pca, W_img):
     bar = progressbar.ProgressBar()
     logging.info('Testing: number of image = %d', N_TEST)
 
-    # net = VGG16(weights='imagenet', include_top=True)
-    net = load_model('/newvolume/resnet_classifier')
+    net = VGG16(weights='imagenet', include_top=True)
+    # net = load_model('/newvolume/resnet_classifier')
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
