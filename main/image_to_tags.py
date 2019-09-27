@@ -25,7 +25,7 @@ W_tag = projections['W_tag']
 assert os.path.isfile('possible_tags_joined.pkl')
 possible_tags = pickle.load(open('possible_tags_joined.pkl', 'rb'))
 
-model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
+model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
 tags = []
 tag_features_list = []
 logging.info('Testing: get embedding of all possible tags')
