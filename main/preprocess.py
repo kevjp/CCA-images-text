@@ -37,7 +37,7 @@ def count_words():
     logging.info('Training: number of images = %d', len(img_count))
 
 def calc_features():
-    model = KeyedVectors.load_word2vec_format('/newvolume/outputs/text.model.bin', binary=True)
+    model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
     # net = VGG16(weights='imagenet', include_top=True)
     net = load_model('/newvolume/resnet_classifier')
     net.layers.pop()
