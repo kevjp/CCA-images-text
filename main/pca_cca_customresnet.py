@@ -25,8 +25,8 @@ tag_features = train_features['tag_features']
 N_PCA = img_features.shape[0] if args.npca == -1 else args.npca
 logging.info('Training: PCA of image features, N_PCA = %d', N_PCA)
 start = time.time()
-pca = IncrementalPCA(n_components=100, batch_size=512)
-# pca = IncrementalPCA(n_components=500, batch_size=512)
+# pca = IncrementalPCA(n_components=100, batch_size=512)
+pca = IncrementalPCA(n_components=500, batch_size=512)
 pca.fit(img_features[:N_PCA,:])
 end = time.time()
 logging.info('Time: %.4fm', (end - start) / 60)
