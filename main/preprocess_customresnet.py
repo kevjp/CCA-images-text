@@ -244,11 +244,12 @@ def calc_features():
 
     # load tags from Coco data
     possible_tags_coco = pickle.load(open('possible_tags.pkl', 'rb'))
-    possible_tags_joined = possible_tags_coco.update(possible_tags)
+    for t in possible_tags:
+        possible_tags_coco.add(t)
 
 
     logging.info('Training: number of possible tags = %d', len(possible_tags))
-    pickle.dump(possible_tags_joined, open('possible_tags_joined.pkl', 'wb'))
+    pickle.dump(possible_tags_coco, open('possible_tags_joined.pkl', 'wb'))
 
 
 if __name__ == "__main__":
