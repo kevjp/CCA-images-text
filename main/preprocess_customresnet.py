@@ -215,7 +215,7 @@ def calc_features():
         img = np.expand_dims(img, axis=0)
         img = preprocess_input(img)
         features = net.predict(img)
-        print(features)
+        # print(features)
         features = features.reshape(-1)
 
         for i in range(TAGS_PER_IMAGE):
@@ -229,18 +229,22 @@ def calc_features():
             logging.info('Training: saving features calculated for the first %d images', pos)
             np.savez_compressed('train_features_room_data', img_features=img_features[:TAGS_PER_IMAGE * pos,:], tag_features=tag_features[:TAGS_PER_IMAGE * pos,:])
 
-    # load Coco data outputs
-    train_features_coco = np.load('train_features.npz')
-    img_features_coco = train_features_coco['img_features']
-    tag_features_coco = train_features_coco['tag_features']
+    if args.incl_coco == True:
+        # load Coco data outputs
+        train_features_coco = np.load('train_features.npz')
+        img_features_coco = train_features_coco['img_features']
+        tag_features_coco = train_features_coco['tag_features']
 
-    # append to img_features data generated from room data
-    img_features_joined = np.append(img_features_coco, img_features, axis=0)
-    tag_features_joined = np.append(tag_features_coco, tag_features, axis=0)
+        # append to img_features data generated from room data
+        img_features_joined = np.append(img_features_coco, img_features, axis=0)
+        tag_features_joined = np.append(tag_features_coco, tag_features, axis=0)
 
 
-    logging.info('Training: saving features calculated for all the images')
-    np.savez_compressed('train_features_joined', img_features=img_features_joined, tag_features=tag_features_joined)
+        logging.info('Training: saving features calculated for all the images')
+        np.savez_compressed('train_features_joined', img_features=img_features_joined, tag_features=tag_features_joined)
+    else:
+        logging.info('Training: saving features calculated for all the images')
+        np.savez_compressed('train_features', img_features=img_features, tag_features=tag_features)
 
     # load tags from Coco data
     possible_tags_coco = pickle.load(open('possible_tags.pkl', 'rb'))
@@ -257,6 +261,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--tagsPerImage', default=2, type=int, help='amount of tags per image')
+    parser.add_argument('--incl_coco', action='store_true', help='amount of tags per image')
     args = parser.parse_args()
 
     annFile = '/newvolume/annotations/captions_train2014.json'
