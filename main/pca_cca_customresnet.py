@@ -14,13 +14,21 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--numCC', default=15, type=int, help='number of components')
 parser.add_argument('--gpu', action='store_true', default=False, help='use gpu')
 parser.add_argument('--npca', default=-1, type=int, help='number of points used to calculate PCA')
+parser.add_argument('--incl_coco', action='store_true', help='amount of tags per image')
 args = parser.parse_args()
 
-assert os.path.isfile('train_features_joined.npz')
-logging.info('Loading features file')
-train_features = np.load('train_features_joined.npz')
-img_features = train_features['img_features']
-tag_features = train_features['tag_features']
+if args.incl_coco == True:
+    assert os.path.isfile('train_features_joined.npz')
+    logging.info('Loading features file')
+    train_features = np.load('train_features_joined.npz')
+    img_features = train_features['img_features']
+    tag_features = train_features['tag_features']
+else:
+    assert os.path.isfile('train_features.npz')
+    logging.info('Loading features file')
+    train_features = np.load('train_features.npz')
+    img_features = train_features['img_features']
+    tag_features = train_features['tag_features']
 
 N_PCA = img_features.shape[0] if args.npca == -1 else args.npca
 logging.info('Training: PCA of image features, N_PCA = %d', N_PCA)
