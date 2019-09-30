@@ -68,7 +68,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # Generate MDS object
     mds = MDS(n_components=2, dissimilarity="precomputed")
-
+    print (score_subset)
     # Calculate euclidean distance between each image word vector
     similarities = euclidean_distances(score_subset)
 
