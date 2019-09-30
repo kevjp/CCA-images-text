@@ -177,7 +177,7 @@ def gen_scatter_single_tag(annot_list, indices_list, ax = None):
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
     print(col_list)
-    if ax = None:
+    if ax == None:
         fig, ax = plt.subplots()
 
     scatter_x = np.array(pos[:,0])
