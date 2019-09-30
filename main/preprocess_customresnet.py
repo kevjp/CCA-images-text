@@ -155,9 +155,14 @@ def copy_images_back():
 
 def calc_features():
     model = KeyedVectors.load_word2vec_format('/newvolume/text.model.bin', binary=True)
-    # Load my own custom room type multilabel classifier
-    net = load_model('/newvolume/resnet_classifier')
-    # net = VGG16(weights='imagenet', include_top=True)
+
+    if args.use_model == 'InceptRes':
+        # Load my own custom room type multilabel classifier
+        net = load_model('/newvolume/resnet_classifier')
+    else:
+        # Load defualt model
+        net = VGG16(weights='imagenet', include_top=True)
+
     net.layers.pop()
     net.outputs = [net.layers[-1].output]
     net.layers[-1].outbound_nodes = []
@@ -179,7 +184,7 @@ def calc_features():
         # file_name = coco_train.imgs[image_id]['file_name']
         # img = image.load_img('/newvolume/train2014/' + file_name, target_size=(224, 224))
         file_name = image_id.split('.json')
-        img = image.load_img(file_name[0], target_size=(224, 224, 3))
+        img = image.load_img(file_name[0], target_size=(224, 224))
 
         words_list = []
         words_count = []
@@ -197,9 +202,6 @@ def calc_features():
         f.write(image_id + '\n')
 
         for i in range(TAGS_PER_IMAGE):
-            if i < len(index):
-                continue
-            else:
                 print(image_id)
                 print(index)
                 print(len(index))
@@ -262,6 +264,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--tagsPerImage', default=2, type=int, help='amount of tags per image')
     parser.add_argument('--incl_coco', action='store_true', help='include COCO data')
+    parser.add_argument('--use_model', default='VGG16', help='change image feature model extractor options are VGG16 and InceptRes')
     args = parser.parse_args()
 
     annFile = '/newvolume/annotations/captions_train2014.json'
