@@ -46,7 +46,7 @@ X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter']}
 # ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # ann_dict  = {'kitchen': ['kitchen'], 'bedroom': ['bedroom'], 'bathroom': ['bathroom'], 'living': ['living']}
-ann_dict  = {'bathroom': ['bathroom']}
+ann_dict  = {'kitchen': ['kitchen', 'island']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
@@ -74,12 +74,12 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # label_list = ['kitchen counter', 'kitchen refrigerator']
     # label_list = ['kitchen refrigerator']
-    label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
+    label_list = ['kitchen island']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
-    colors = {'kitchen':'red', 'bedroom': 'blue', 'bathroom': 'green', 'living': 'orange'}
+    colors = {'kitchen island':'black'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -100,43 +100,43 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 # Uncomment section below to add images instead of dots as points of scatter plot
     # Plot image instead of point
     # obtain file paths for each image
-    annFile = '/newvolume/annotations/instances_val2014.json'
-    coco_val = COCO(annFile)
-    ids = coco_val.getAnnIds()
-    annotations = coco_val.loadAnns(ids)
+    # annFile = '/newvolume/annotations/instances_val2014.json'
+    # coco_val = COCO(annFile)
+    # ids = coco_val.getAnnIds()
+    # annotations = coco_val.loadAnns(ids)
 
-    img_info = {}
-    for ann in annotations:
-        image_id = ann['image_id']
-        if image_id not in img_info:
-            img_info[image_id] = coco_val.imgs[image_id]
+    # img_info = {}
+    # for ann in annotations:
+    #     image_id = ann['image_id']
+    #     if image_id not in img_info:
+    #         img_info[image_id] = coco_val.imgs[image_id]
 
-    img_path_list = []
-    for image_id, info in img_info.items():
-        file_name = info['file_name']
-        img = '/newvolume/val2014/' + file_name
-        img_path_list.append(img)
+    # img_path_list = []
+    # for image_id, info in img_info.items():
+    #     file_name = info['file_name']
+    #     img = '/newvolume/val2014/' + file_name
+    #     img_path_list.append(img)
 
-    # Slice out the relevant images
-    img_subset = list(map(img_path_list.__getitem__, indices_list))
+    # # Slice out the relevant images
+    # img_subset = list(map(img_path_list.__getitem__, indices_list))
 
-    print(len(img_subset))
-    # dest = '/newvolume/kitchen_counter'
-    dest = '/newvolume/mds_results'
-    for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
-        print(path)
-        shutil.copy(path, dest)
-        ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
-        ax.add_artist(ab)
-    plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
+    # print(len(img_subset))
+    # # dest = '/newvolume/kitchen_counter'
+    # dest = '/newvolume/mds_results'
+    # for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
+    #     print(path)
+    #     shutil.copy(path, dest)
+    #     ab = AnnotationBbox(getImage(path), (x0, y0), frameon=False)
+    #     ax.add_artist(ab)
+    # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 ################################################################################
 
 
     plt.show()
 
-    plt.savefig('/newvolume/images_room_type.pdf')
+    plt.savefig('/newvolume/images_kitchen_island.pdf')
 
-# gen_scatter_multi_tag(annot_list, indices_list)
+gen_scatter_multi_tag(annot_list, indices_list)
 
 
 
@@ -164,14 +164,14 @@ def gen_scatter_single_tag(annot_list, indices_list):
 
     # colors = ['red','blue','green','orange', 'black']
     # label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
-    label_list = ['bathroom']
+    label_list = ['kitchen']
     # label_list = ['bathroom']
     # label_list = ['dog', 'cat']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
-    colors = {'bathroom':'green'}
+    colors = {'kitchen':'green'}
     # colors = {'dog':'red', 'cat':'blue'}
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
@@ -228,9 +228,9 @@ def gen_scatter_single_tag(annot_list, indices_list):
     plt.show()
 
     # plt.savefig('/newvolume/images_room_type.pdf')
-    plt.savefig('/newvolume/images_bathroom.pdf')
+    plt.savefig('/newvolume/images_kitchen_island.pdf')
 
-gen_scatter_single_tag(annot_list, indices_list)
+# gen_scatter_single_tag(annot_list, indices_list)
 
 
 
