@@ -30,24 +30,25 @@ else:
     img_features = train_features['img_features']
     tag_features = train_features['tag_features']
 
-N_PCA = img_features.shape[0] if args.npca == -1 else args.npca
-logging.info('Training: PCA of image features, N_PCA = %d', N_PCA)
-start = time.time()
-# pca = IncrementalPCA(n_components=100, batch_size=512)
-pca = IncrementalPCA(n_components=500, batch_size=512)
-pca.fit(img_features[:N_PCA,:])
-end = time.time()
-logging.info('Time: %.4fm', (end - start) / 60)
+# N_PCA = img_features.shape[0] if args.npca == -1 else args.npca
+# logging.info('Training: PCA of image features, N_PCA = %d', N_PCA)
+# start = time.time()
+# # pca = IncrementalPCA(n_components=100, batch_size=512)
+# pca = IncrementalPCA(n_components=500, batch_size=512)
+# pca.fit(img_features[:N_PCA,:])
+# end = time.time()
+# logging.info('Time: %.4fm', (end - start) / 60)
 
-logging.info('Apply PCA to image features')
-start = time.time()
-X = pca.transform(img_features)
-end = time.time()
-logging.info('Time: %.4fm', (end - start) / 60)
+# logging.info('Apply PCA to image features')
+# start = time.time()
+# X = pca.transform(img_features)
+# end = time.time()
+# logging.info('Time: %.4fm', (end - start) / 60)
 
 logging.info('Training: fit CCA')
 start = time.time()
-W_img, W_tag = cca.fit(X, tag_features, numCC=args.numCC, useGPU=args.gpu)
+#W_img, W_tag = cca.fit(X, tag_features, numCC=args.numCC, useGPU=args.gpu)
+W_img, W_tag = cca.fit(img_features, tag_features, numCC=args.numCC, useGPU=args.gpu)
 end = time.time()
 logging.info('Time: %.4fm', (end - start) / 60)
 
