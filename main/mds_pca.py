@@ -77,13 +77,14 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     # label_list = ['kitchen counter', 'kitchen refrigerator']
     # label_list = ['kitchen refrigerator']
     # label_list = ['kitchen island', 'kitchen']
-    label_list = ['living_room fireplace']
+    label_list = ['bedroom']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
     # colors = {'kitchen island':'black', 'kitchen': 'red'}
-    colors = {'fireplace': 'black', 'living': 'yellow'}
+    # colors = {'fireplace': 'black', 'living': 'yellow'}
+    colors = {'bedroom': 'blue'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -126,16 +127,16 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     print(len(img_subset))
     # dest = '/newvolume/kitchen_island'
-    dest = '/newvolume/living_rooms_with_fireplaces'
+    dest = '/newvolume/bedroom'
     # dest_super = '/newvolume/kitchen'
-    dest_super = '/newvolume/living_rooms'
+    dest_super = '/newvolume/bedroom'
     print("annot_list = ", annot_list)
     # dest = '/newvolume/mds_results'
     for g, path in zip(annot_list, img_subset):
         print(g)
         if g == 'living fireplace':
             shutil.copy(path, dest)
-        elif g == 'living':
+        elif g == 'bedroom':
             shutil.copy(path, dest_super)
         else:
             continue
@@ -152,7 +153,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     plt.show()
 
-    plt.savefig('/newvolume/images_living_room_fireplaces.pdf')
+    plt.savefig('/newvolume/images_bedroom.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
 
