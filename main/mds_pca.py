@@ -46,7 +46,8 @@ X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter']}
 # ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # ann_dict  = {'kitchen': ['kitchen'], 'bedroom': ['bedroom'], 'bathroom': ['bathroom'], 'living': ['living']}
-ann_dict  = {'kitchen': ['kitchen', 'island']}
+# ann_dict  = {'kitchen': ['kitchen', 'island']}
+ann_dict  = {'living': ['living', 'fireplace']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 # annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 annot_list, indices_list, annot_superset, indices_key_superset = annotate_scatter(X, ann_dict = ann_dict)
@@ -75,12 +76,14 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # label_list = ['kitchen counter', 'kitchen refrigerator']
     # label_list = ['kitchen refrigerator']
-    label_list = ['kitchen island']
+    # label_list = ['kitchen island']
+    label_list = ['living room and fireplaces']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
-    colors = {'kitchen island':'black'}
+    # colors = {'kitchen island':'black'}
+    colors = {'living_rooms_with_fireplaces':'black'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -165,14 +168,16 @@ def gen_scatter_single_tag(annot_list, indices_list, ax = None):
 
     # colors = ['red','blue','green','orange', 'black']
     # label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
-    label_list = ['kitchen']
+    # label_list = ['kitchen']
+    label_list = ['living_room']
     # label_list = ['bathroom']
     # label_list = ['dog', 'cat']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
-    colors = {'kitchen':'red'}
+    # colors = {'kitchen':'red'}
+    colors = {'living_room':'yellow'}
     # colors = {'dog':'red', 'cat':'blue'}
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
@@ -230,7 +235,7 @@ def gen_scatter_single_tag(annot_list, indices_list, ax = None):
     plt.show()
 
     # plt.savefig('/newvolume/images_room_type.pdf')
-    plt.savefig('/newvolume/images_kitchen_island.pdf')
+    plt.savefig('/newvolume/images_living_rooms_fireplaces.pdf')
 
 gen_scatter_single_tag(annot_superset, indices_key_superset, ax = ax_obj)
 
