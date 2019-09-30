@@ -261,7 +261,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--tagsPerImage', default=2, type=int, help='amount of tags per image')
-    parser.add_argument('--incl_coco', action='store_true', help='amount of tags per image')
+    parser.add_argument('--incl_coco', action='store_true', help='include COCO data')
     args = parser.parse_args()
 
     annFile = '/newvolume/annotations/captions_train2014.json'

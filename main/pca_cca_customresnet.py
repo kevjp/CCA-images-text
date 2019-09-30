@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--numCC', default=15, type=int, help='number of components')
 parser.add_argument('--gpu', action='store_true', default=False, help='use gpu')
 parser.add_argument('--npca', default=-1, type=int, help='number of points used to calculate PCA')
-parser.add_argument('--incl_coco', action='store_true', help='amount of tags per image')
+parser.add_argument('--incl_coco', action='store_true', help='include COCO data')
 args = parser.parse_args()
 
 if args.incl_coco == True:
