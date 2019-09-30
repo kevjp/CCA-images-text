@@ -148,7 +148,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     #     ax.add_artist(ab)
     # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
 ################################################################################
-    return ax
+    # return ax
 
     plt.show()
 
