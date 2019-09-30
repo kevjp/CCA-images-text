@@ -104,29 +104,34 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 # Uncomment section below to add images instead of dots as points of scatter plot
     # Plot image instead of point
     # obtain file paths for each image
-    # annFile = '/newvolume/annotations/instances_val2014.json'
-    # coco_val = COCO(annFile)
-    # ids = coco_val.getAnnIds()
-    # annotations = coco_val.loadAnns(ids)
+    annFile = '/newvolume/annotations/instances_val2014.json'
+    coco_val = COCO(annFile)
+    ids = coco_val.getAnnIds()
+    annotations = coco_val.loadAnns(ids)
 
-    # img_info = {}
-    # for ann in annotations:
-    #     image_id = ann['image_id']
-    #     if image_id not in img_info:
-    #         img_info[image_id] = coco_val.imgs[image_id]
+    img_info = {}
+    for ann in annotations:
+        image_id = ann['image_id']
+        if image_id not in img_info:
+            img_info[image_id] = coco_val.imgs[image_id]
 
-    # img_path_list = []
-    # for image_id, info in img_info.items():
-    #     file_name = info['file_name']
-    #     img = '/newvolume/val2014/' + file_name
-    #     img_path_list.append(img)
+    img_path_list = []
+    for image_id, info in img_info.items():
+        file_name = info['file_name']
+        img = '/newvolume/val2014/' + file_name
+        img_path_list.append(img)
 
     # # Slice out the relevant images
-    # img_subset = list(map(img_path_list.__getitem__, indices_list))
+    img_subset = list(map(img_path_list.__getitem__, indices_list))
 
-    # print(len(img_subset))
-    # # dest = '/newvolume/kitchen_counter'
+    print(len(img_subset))
+    dest = '/newvolume/kitchen_island'
+    dest_super = '/newvolume/kitchen'
+    print("annot_list = ", annot_list)
     # dest = '/newvolume/mds_results'
+    for g, path in zip(annot_list, img_subset):
+        print(g, path)
+
     # for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
     #     print(path)
     #     shutil.copy(path, dest)
