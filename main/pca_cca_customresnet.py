@@ -15,7 +15,7 @@ parser.add_argument('--numCC', default=15, type=int, help='number of components'
 parser.add_argument('--gpu', action='store_true', default=False, help='use gpu')
 parser.add_argument('--npca', default=-1, type=int, help='number of points used to calculate PCA')
 parser.add_argument('--incl_coco', action='store_true', help='include COCO data')
-parser.add_argument('perform_PCA', action='store_true', help='perform PCA of image data')
+parser.add_argument('--perform_PCA', action='store_true', help='perform PCA of image data')
 args = parser.parse_args()
 
 if args.incl_coco == True:
@@ -50,8 +50,12 @@ if args.perform_PCA == True:
 
 logging.info('Training: fit CCA')
 start = time.time()
-#W_img, W_tag = cca.fit(X, tag_features, numCC=args.numCC, useGPU=args.gpu)
-W_img, W_tag = cca.fit(img_features, tag_features, numCC=args.numCC, useGPU=args.gpu)
+
+if args.perform_PCA == True:
+    W_img, W_tag = cca.fit(X, tag_features, numCC=args.numCC, useGPU=args.gpu)
+else:
+    W_img, W_tag = cca.fit(img_features, tag_features, numCC=args.numCC, useGPU=args.gpu)
+
 end = time.time()
 logging.info('Time: %.4fm', (end - start) / 60)
 
