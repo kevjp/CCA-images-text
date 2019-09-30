@@ -228,7 +228,7 @@ def gen_scatter_single_tag(annot_list, indices_list):
     plt.show()
 
     # plt.savefig('/newvolume/images_room_type.pdf')
-    plt.savefig('/newvolume/images_kitchen.pdf')
+    plt.savefig('/newvolume/images_bedroom.pdf')
 
 gen_scatter_single_tag(annot_list, indices_list)
 
