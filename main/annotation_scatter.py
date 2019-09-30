@@ -22,7 +22,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
             score_vec = 0
             score_key = 0
             ind_ex = [0]
-            ind_ex_key = [0]
+            ind_ex_key = 0
             add_ann = None
             for a in ann_dict:
                 if(set(ann_dict[a]).issubset(set(img[1]))):
