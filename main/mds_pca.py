@@ -190,8 +190,8 @@ def gen_scatter_single_tag(annot_list, indices_list, ax = None):
     group = np.array(annot_list)
 
     # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
-    colors = {'kitchen':'red'}
-    # colors = {'living_room':'yellow'}
+    # colors = {'kitchen':'red'}
+    colors = {'living':'yellow'}
     # colors = {'dog':'red', 'cat':'blue'}
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
