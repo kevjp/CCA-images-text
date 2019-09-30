@@ -58,7 +58,7 @@ def image_to_tags():
 
     if args.use_model == 'InceptRes':
         if not os.path.isfile('test_features.npz'):
-            img_ids, img_features = features.calc_testing_image_features(img_info, pca, W_img, VGG16 = False)
+            img_ids, img_features = features.calc_testing_image_features(img_info, pca, W_img, VGG16_bool = False)
         else:
             test_features = np.load('test_features.npz')
             img_ids = test_features['img_ids']
