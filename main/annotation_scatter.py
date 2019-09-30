@@ -51,7 +51,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
                 index_count_key += 1
 
         ann_out = [" ".join(ann_out_dict[elem]) for elem in ann_out_dict]
-        ann_key = [elem for elem in ann_out_key_dict]
+        ann_key = [ann_out_key_dict[elem] for elem in ann_out_key_dict]
         return ann_out, index_pos, ann_key, index_pos_key
 
     # Annotate scatter with a single tags
