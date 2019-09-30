@@ -53,6 +53,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
 
         ann_out = [" ".join(ann_out_dict[elem]) for elem in ann_out_dict]
         ann_key = [ann_out_key_dict[elem] for elem in ann_out_key_dict]
+        print(index_pos)
         return ann_out, index_pos, ann_key, index_pos_key
 
     # Annotate scatter with a single tags
