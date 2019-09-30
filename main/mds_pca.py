@@ -53,9 +53,9 @@ ann_dict  = {'living': ['living', 'fireplace']}
 annot_list, indices_list, annot_superset, indices_key_superset = annotate_scatter(X, ann_dict = ann_dict)
 
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
-print(annot_list)
-print(len(annot_list))
-print(len(indices_list))
+# print(annot_list)
+# print(len(annot_list))
+# print(len(indices_list))
 
 
 def gen_scatter_multi_tag(annot_list, indices_list):
