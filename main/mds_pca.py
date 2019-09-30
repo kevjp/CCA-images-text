@@ -162,14 +162,15 @@ def gen_scatter_single_tag(annot_list, indices_list):
     fig = plt.figure(figsize=(12,10))
 
     # colors = ['red','blue','green','orange', 'black']
-    label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
+    # label_list = ['kitchen', 'bedroom', 'bathroom', 'living room']
+    label_list = ['kitchen']
     # label_list = ['bathroom']
     # label_list = ['dog', 'cat']
 
     group = np.array(annot_list)
 
-    colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
-    # colors = {'bathroom':'red'}
+    # colors = {'kitchen':'red', 'bedroom':'blue', 'bathroom':'green', 'living':'orange'}
+    colors = {'kitchen':'red'}
     # colors = {'dog':'red', 'cat':'blue'}
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
     print(len(col_list))
@@ -225,7 +226,8 @@ def gen_scatter_single_tag(annot_list, indices_list):
     # plt.scatter(pos[:, 0], pos[:, 1], c= col_list)
     plt.show()
 
-    plt.savefig('/newvolume/images_room_type.pdf')
+    # plt.savefig('/newvolume/images_room_type.pdf')
+    plt.savefig('/newvolume/images_kitchen.pdf')
 
 gen_scatter_single_tag(annot_list, indices_list)
 
