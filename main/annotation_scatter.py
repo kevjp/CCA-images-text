@@ -31,6 +31,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
                 elif a in set(img[1]):
                     # generate points for superset relating to key
                     add_ann_key = a
+                    print (a)
                     print(img[1].index(a))
                     ind_ex_key = img[1].index(a)
                 else:
