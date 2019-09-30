@@ -37,6 +37,7 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
                 else:
                     continue
             if sum(ind_ex) > score_vec:
+                print("check",score_vec)
                 score_vec = sum(ind_ex)
                 ann_out_dict[img[0]] = add_ann
                 index_pos.append(index_count)
@@ -53,7 +54,6 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
 
         ann_out = [" ".join(ann_out_dict[elem]) for elem in ann_out_dict]
         ann_key = [ann_out_key_dict[elem] for elem in ann_out_key_dict]
-        print(index_pos)
         return ann_out, index_pos, ann_key, index_pos_key
 
     # Annotate scatter with a single tags
