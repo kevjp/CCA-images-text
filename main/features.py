@@ -5,11 +5,11 @@ import numpy as np
 import logging
 import progressbar
 
-def calc_testing_image_features(img_info, pca, W_img, VGG16 = True):
+def calc_testing_image_features(img_info, pca, W_img, VGG16_bool = True):
     N_TEST = len(img_info)
     bar = progressbar.ProgressBar()
     logging.info('Testing: number of image = %d', N_TEST)
-    if VGG16 == True:
+    if VGG16_bool == True:
         net = VGG16(weights='imagenet', include_top=True)
     else:
         net = load_model('/newvolume/resnet_classifier')
