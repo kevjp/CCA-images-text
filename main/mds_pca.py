@@ -45,7 +45,8 @@ X = [np.array([line1, line2.replace(" ", "").split(',')], dtype=object) for line
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter'], 'kitchen_refrigerator': ['kitchen', 'refrigerator']}
 # ann_dict  = {'kitchen_counter': ['kitchen', 'counter']}
 # ann_dict  = {'kitchen_refrigerator': ['kitchen', 'refrigerator']}
-ann_dict  = {'kitchen': ['kitchen'], 'bedroom': ['bedroom'], 'bathroom': ['bathroom'], 'living': ['living']}
+# ann_dict  = {'kitchen': ['kitchen'], 'bedroom': ['bedroom'], 'bathroom': ['bathroom'], 'living': ['living']}
+ann_dict  = {'kitchen': ['kitchen']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
