@@ -77,13 +77,13 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     # label_list = ['kitchen counter', 'kitchen refrigerator']
     # label_list = ['kitchen refrigerator']
     # label_list = ['kitchen island', 'kitchen']
-    label_list = ['living room']
+    label_list = ['living_room fireplace']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
     # colors = {'kitchen island':'black', 'kitchen': 'red'}
-    colors = {'living': 'yellow'}
+    colors = {'fireplace': 'black', 'living': 'yellow'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
@@ -152,7 +152,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     plt.show()
 
-    plt.savefig('/newvolume/images_living_room.pdf')
+    plt.savefig('/newvolume/images_living_room_fireplaces.pdf')
 
 gen_scatter_multi_tag(annot_list, indices_list)
 
