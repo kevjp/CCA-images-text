@@ -55,7 +55,7 @@ annot_list, indices_list, annot_superset, indices_key_superset = annotate_scatte
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 # print(annot_list)
 # print(len(annot_list))
-# print(len(indices_list))
+print(len(indices_list))
 
 
 def gen_scatter_multi_tag(annot_list, indices_list):
@@ -68,7 +68,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # Generate MDS object
     mds = MDS(n_components=2, dissimilarity="precomputed")
-    print (score_subset)
+
     # Calculate euclidean distance between each image word vector
     similarities = euclidean_distances(score_subset)
 
