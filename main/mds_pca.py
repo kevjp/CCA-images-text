@@ -83,7 +83,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
     # colors = {'kitchen island':'black', 'kitchen': 'red'}
-    colors = {'living_room': 'yellow'}
+    colors = {'living': 'yellow'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
 
