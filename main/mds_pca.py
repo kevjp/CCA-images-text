@@ -128,7 +128,7 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     # dest = '/newvolume/kitchen_island'
     dest = '/newvolume/living_rooms_with_fireplaces'
     # dest_super = '/newvolume/kitchen'
-    dest_super = '/newvolume/iving_rooms'
+    dest_super = '/newvolume/living_rooms'
     print("annot_list = ", annot_list)
     # dest = '/newvolume/mds_results'
     for g, path in zip(annot_list, img_subset):
