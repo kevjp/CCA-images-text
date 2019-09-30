@@ -50,7 +50,7 @@ ann_dict  = {'kitchen': ['kitchen', 'island']}
 # ann_dict  = {'living': ['living', 'fireplace']}
 # annot_list, indices_list = annotate_scatter(X, ann_list = ["bathroom"])
 # annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
-annot_list, indices_list, annot_superset, indices_key_superset = annotate_scatter(X, ann_dict = ann_dict)
+annot_list, indices_list = annotate_scatter(X, ann_dict = ann_dict)
 
 # annot_list, indices_list = annotate_scatter(X, ["dog", "cat"])
 # print(annot_list)
@@ -76,13 +76,13 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 
     # label_list = ['kitchen counter', 'kitchen refrigerator']
     # label_list = ['kitchen refrigerator']
-    label_list = ['kitchen island']
+    label_list = ['kitchen island', 'kitchen']
     # label_list = ['living room and fireplaces']
 
     group = np.array(annot_list)
 
     # colors = {'kitchen counter':'red', 'kitchen refrigerator': 'blue'}
-    colors = {'kitchen island':'black'}
+    colors = {'kitchen island':'black', 'kitchen': 'red'}
     #colors = {'living_rooms_with_fireplaces':'black'}
 
     col_list = [c for c in map(lambda x: colors[x],annot_list)]
@@ -136,11 +136,11 @@ def gen_scatter_multi_tag(annot_list, indices_list):
 ################################################################################
     return ax
 
-    #plt.show()
+    plt.show()
 
-    #plt.savefig('/newvolume/images_kitchen_island.pdf')
+    plt.savefig('/newvolume/images_kitchen_island.pdf')
 
-ax_obj = gen_scatter_multi_tag(annot_list, indices_list)
+gen_scatter_multi_tag(annot_list, indices_list)
 
 
 
@@ -237,7 +237,7 @@ def gen_scatter_single_tag(annot_list, indices_list, ax = None):
     # plt.savefig('/newvolume/images_room_type.pdf')
     plt.savefig('/newvolume/images_kitchens_and_kitchen_islands.pdf')
 
-gen_scatter_single_tag(annot_superset, indices_key_superset, ax = ax_obj)
+#gen_scatter_single_tag(annot_superset, indices_key_superset, ax = ax_obj)
 
 
 
