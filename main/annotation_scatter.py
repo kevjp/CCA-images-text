@@ -42,7 +42,8 @@ def annotate_scatter(top5_array, ann_list=None, ann_dict=None):
                     ann_out_dict[img[0]] = add_ann
                     index_pos.append(index_count)
             index_count += 1
-
+        for elem in ann_out_dict:
+            print(elem)
         ann_out = [" ".join(ann_out_dict[elem]) for elem in ann_out_dict]
         return ann_out, index_pos
 
