@@ -25,7 +25,7 @@ def image_to_tags():
     W_img = projections['W_img']
     W_tag = projections['W_tag']
 
-    if args.use_model == 'InceptRes':
+    if args.incl_coco == 'True':
         assert os.path.isfile('possible_tags_joined.pkl')
         possible_tags = pickle.load(open('possible_tags_joined.pkl', 'rb'))
         print(possible_tags)
@@ -106,6 +106,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--use_model', default='VGG16', help='change image feature model extractor options are VGG16 and InceptRes')
+    parser.add_argument('--incl_coco', action='store_true', help='include COCO data')
     args = parser.parse_args()
 
     image_to_tags()
