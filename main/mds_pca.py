@@ -132,9 +132,11 @@ def gen_scatter_multi_tag(annot_list, indices_list):
     for g, path in zip(annot_list, img_subset):
         if g == 'kitchen island':
             shutil.copy(path, dest)
-        else:
+        elif g == 'kitchen':
             shutil.copy(path, dest_super)
-        print(g, path)
+        else:
+            continue
+
 
     # for x0, y0, path in zip(scatter_x, scatter_y,img_subset):
     #     print(path)
