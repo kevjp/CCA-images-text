@@ -46,16 +46,17 @@ curl -O http://msvocds.blob.core.windows.net/coco2014/train2014.zip
 wget http://msvocds.blob.core.windows.net/coco2014/val2014.zip
 wget http://msvocds.blob.core.windows.net/annotations-1-0-3/instances_train-val2014.zip
 wget http://msvocds.blob.core.windows.net/annotations-1-0-3/captions_train-val2014.zip
-unzip train2014.zip
-unzip val2014.zip
-unzip instances_train-val2014.zip
-unzip captions_train-val2014.zip
+unzip -q train2014.zip
+unzip -q val2014.zip
+unzip -q instances_train-val2014.zip
+unzip -q captions_train-val2014.zip
 rm train2014.zip
 rm val2014.zip
 rm instances_train-val2014.zip
 rm captions_train-val2014.zip
 
 pip install Cython
+pip install pycocotools
 
 cd $HOME
 git clone https://github.com/pdollar/coco.git
@@ -68,4 +69,24 @@ cd $HOME
 git clone https://github.com/kevjp/CCA-images-text.git
 
 # Copy across files that are too big to put on remote repo
-scp -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/CCA_images_text/CCA-images-text/main/train_features.npz  ubuntu@ec2-35-178-151-72.eu-west-2.compute.amazonaws.com:~/CCA-images-text/main
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/CCA_images_text/outputs ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Results_google_images_resnet_classifiers/folder_2019-08-22/resnet_classifier ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/CCA_images_text/outputs/text.model.bin ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Rightmove/GoogleImages/Fireplaces.zip ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Rightmove/GoogleImages/Hardwood_Floors.zip ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Rightmove/GoogleImages/Kitchen_Islands.zip ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Rightmove/GoogleImages/Skylights.zip ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+scp -r -i /Users/kevinryan/Documents/DataScienceMSc/Rightmove/AWS/CompVisionLondon.pem /Users/kevinryan/Documents/DataScienceMSc/Rightmove/Rightmove/ADE20K_tagged.zip ubuntu@ec2-3-8-174-95.eu-west-2.compute.amazonaws.com:/newvolume
+
+unzip -q Fireplaces.zip
+unzip -q Hardwood_Floors.zip
+unzip -q Kitchen_Islands.zip
+unzip -q Skylights.zip
+unzip -q ADE20K_tagged.zip
+
+
