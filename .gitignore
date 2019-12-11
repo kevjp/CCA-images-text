@@ -89,3 +89,13 @@ ENV/
 .ropeproject
 
 *.npz
+
+main/annotations/
+
+*.zip
+
+*.txt
+
+*.pdf
+
+*.html
